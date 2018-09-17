@@ -1,0 +1,14 @@
+/target
+/.settings
+/.classpath
+/.project
+*.epoch
+*.log
+*.iml
+/.idea
+/*/target/*
+/*/bin/*
+/*/.settings/*
+.classpath
+.project
+/*/WebRoot/*

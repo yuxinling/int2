@@ -30,7 +30,7 @@ public class IntegrateDao {
 		String sql = "SELECT id,USER_ID,fixed_integrate,give_integrate,update_time,create_time FROM t_balance  where id >? order by id asc  limit  ?   ";
 		long id = 0;
 		int pageSize = 500;
-		List<Balance> all = new ArrayList<Balance>();
+		List<Balance> all = new ArrayList<>();
 		List<Balance> list = null;
 		do {
 			list = jdbc.query(sql, bMapper, id, pageSize);

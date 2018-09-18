@@ -41,7 +41,7 @@ public abstract class JsonUtils {
 	
 	private static final ObjectMapper mapper = new ObjectMapper();
 
-    private static Map<Class, Class> primitiveToPacked = new HashMap<Class, Class>(9); //原生类型=>包装类型
+    private static Map<Class, Class> primitiveToPacked = new HashMap<>(9); //原生类型=>包装类型
 
     static {
         mapper.registerModule(new JsonOrgModule());
@@ -186,7 +186,7 @@ public abstract class JsonUtils {
     }
 
     private static Set<String> collectKey(JSONObject jsonObject) {
-        Set<String> set = new HashSet<String>();
+        Set<String> set = new HashSet<>();
         Iterator<String> iter = jsonObject.keys();
         while (iter.hasNext()) {
             set.add(iter.next());

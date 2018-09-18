@@ -186,7 +186,7 @@ public abstract class ReflectionUtility extends ReflectionUtils {
 		return methods.toArray(new Method[0]);
 	}
 	public static Map<String, Object> annoValue(Class<? extends Annotation> annoType, Class KeyClass) {
-        Map<String, Object> expireToAnno = new HashMap<String, Object>();
+        Map<String, Object> expireToAnno = new HashMap<>();
         Annotation head = AnnotationUtils.findAnnotation(KeyClass, annoType);
         if (head == null) {
             return Collections.EMPTY_MAP;

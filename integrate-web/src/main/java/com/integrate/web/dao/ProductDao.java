@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -54,6 +55,14 @@ public class ProductDao {
 	public List<Map<String,Object>> getProducts(){
 		String sql="select id,name,thumbnail,integrate from t_product order by sort asc" ;
 		return jdbc.queryForList(sql,new Object[]{});
+	}
+	
+	public List<Map<String,Object>> getProducts(String keyword){
+		if(StringUtils.isNotBlank(keyword)){
+			keyword = "%"+keyword+"%";
+		}
+		String sql="select id,name,thumbnail,integrate from t_product where name like ? order by sort asc" ;
+		return jdbc.queryForList(sql,new Object[]{keyword});
 	}
 	
 	public Product getProduct(Long id){

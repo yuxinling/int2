@@ -87,6 +87,7 @@ public interface UrlCommand {
 	String article_titles = "/articles/titles";
 	String article_detail = "/articles/{id}";
 	String product = "/products";
+	String product_search = "/products/search";
 	String product_detail = "/products/{id}";
 	
 	

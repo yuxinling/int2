@@ -24,6 +24,10 @@ public class ProductService {
 		return productDao.getProducts();
 	}
 	
+	public List<Map<String,Object>> searchProducts(String keyword) {
+		return productDao.getProducts(keyword);
+	}
+	
 	public Product getProduct(Long id) {
 		Product product =  productDao.getProduct(id);
 		if(product != null){

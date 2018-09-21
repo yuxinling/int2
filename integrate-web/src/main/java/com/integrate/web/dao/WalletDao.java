@@ -66,6 +66,19 @@ public class WalletDao {
 		return jdbc.insert(sql, "id", cityCode, areaCode, userId, money, type, time, orderId, state, txntime, 1);
 	}
 
+	public long addRechrageRecorde(int cityCode,
+								   int areaCode,
+								   long userId,
+								   int money,
+								   int type,
+								   long orderId,
+								   int state,
+								   String txntime,String mobile, String userName, String address, long productId, int amount) {
+		long time = System.currentTimeMillis();
+		String sql = "INSERT INTO t_rechrage (city_code,area_code,user_id,money,TYPE,TIME,trade_no,state,txntime,status,user_mobile,user_name,address,product_id,amount) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		return jdbc.insert(sql, "id", cityCode, areaCode, userId, money, type, time, orderId, state, txntime, 1, mobile, userName, address, productId, amount);
+	}
+
 	public long addRechrageRecordeV2(int cityCode, int areaCode, long userId, int money, int type, long orderId, int state, String txntime, long proxyUserId) {
 		long time = System.currentTimeMillis();
 		String sql = "INSERT INTO t_rechrage (city_code,area_code,user_id,money,TYPE,TIME,trade_no,state,txntime,proxy_user_id) VALUES (?,?,?,?,?,?,?,?,?,?)";

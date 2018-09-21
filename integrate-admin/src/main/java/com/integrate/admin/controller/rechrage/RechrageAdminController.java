@@ -245,14 +245,18 @@ public class RechrageAdminController extends BaseController {
     	String mobile = request.getParameter("mobile");
     	String status = request.getParameter("status");
     	String money = request.getParameter("money");
-    	
+
+		RechrageResp recharge = rechrageService.getRecharge(Long.valueOf(id));
+
     	ModelAndView mv = this.getModelAndView();
     	mv.addObject("id", id);
     	mv.addObject("name", name);
     	mv.addObject("mobile", mobile);
     	mv.addObject("money", money);
     	mv.addObject("status", status);
+    	mv.addObject("recharge", recharge);
     	mv.setViewName("recharge/exchange_edit");
+
     	return mv;
     }
     

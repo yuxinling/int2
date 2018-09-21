@@ -22,7 +22,7 @@ public class ArticleService {
 			if(count == 1){
 				return article;
 			}
-			throw new BusinessException("Insert the article new failure.");
+			throw new BusinessException("Insert the article is failure.");
 		}
 		return null;
 	}
@@ -33,7 +33,7 @@ public class ArticleService {
 			if(count == 1){
 				return article;
 			}
-			throw new BusinessException("Update the article new failure.");
+			throw new BusinessException("Update the article is failure.");
 		}
 		return null;
 	}

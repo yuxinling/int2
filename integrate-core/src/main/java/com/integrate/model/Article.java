@@ -4,6 +4,7 @@ public class Article {
 	private long id;
 	private String title;
 	private String detail;
+	private String dateTime;
     private Long createTime;
     private Long updateTime;
 	
@@ -25,6 +26,15 @@ public class Article {
 	public void setDetail(String detail) {
 		this.detail = detail;
 	}
+
+	public String getDateTime() {
+		return dateTime;
+	}
+
+	public void setDateTime(String dateTime) {
+		this.dateTime = dateTime;
+	}
+
 	public Long getCreateTime() {
 		return createTime;
 	}

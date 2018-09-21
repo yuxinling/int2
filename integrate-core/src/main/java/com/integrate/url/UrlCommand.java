@@ -60,6 +60,8 @@ public interface UrlCommand {
 
 	// 兑换
 	String user_exchange = "/user/exchange";
+	String user_exchange_v2 = "/user/exchange2";
+
 	String exchange_goods = "/user/exchangeGoods";
 
 	// 充值
@@ -89,7 +91,8 @@ public interface UrlCommand {
 	String product = "/products";
 	String product_search = "/products/search";
 	String product_detail = "/products/{id}";
-	
+	String hot_keys = "/hotKeys";
+
 	
 
 	/*************************** admin后台URL bg开头 ******************************/
@@ -118,8 +121,12 @@ public interface UrlCommand {
 	String article_new_delete="bg/articleNewDelete";
 	String product_list = "bg/productList";
 	String product_goto_edit = "bg/productToEdit";
-	
-	
+	String hot_key = "bg/hotKeyList";
+	String hot_key_goto_edit = "bg/hotKeyToEdit";
+	String hot_key_edit = "bg/hotKeyEdit";
+	String hot_key_goto_delete = "bg/hotKeyDelete";
+
+
 	String user_list ="bg/userList";
 	String withdrawls="bg/withdrawlsList";
 	String withdrawlsEdit="bg/withdrawlsEdit";

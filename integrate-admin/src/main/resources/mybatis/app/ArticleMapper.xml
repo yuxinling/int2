@@ -5,6 +5,7 @@
 		<id column="id" property="id" jdbcType="BIGINT" />
 		<result column="title" property="title" jdbcType="VARCHAR" />
 		<result column="detail" property="detail" jdbcType="BLOB" typeHandler="com.integrate.admin.handler.ConvertBlobTypeHandler"/>
+		<result column="date_time" property="dateTime" jdbcType="VARCHAR" />
 		<result column="create_time" property="createTime" jdbcType="BIGINT" />
 		<result column="update_time" property="updateTime" jdbcType="BIGINT" />
 	</resultMap>
@@ -12,12 +13,14 @@
 	<insert id="insertArticle" parameterType="com.integrate.model.Article" useGeneratedKeys="true"  keyProperty="id" keyColumn="id">
 		INSERT INTO t_article (
 			title, 
-			detail, 
+			detail,
+			date_time,
 			create_time, 
 			update_time
 		) VALUES (
 			#{title}, 
 			#{detail},
+			#{dateTime},
 			#{createTime},
 			#{updateTime}
 		)
@@ -26,7 +29,8 @@
 	<update id="updateArticle" parameterType="com.integrate.model.Article">
 		UPDATE t_article set 
 			title = #{title},
-			detail  = #{detail} ,
+			detail = #{detail} ,
+			date_time = #{dateTime} ,
 			update_time = #{updateTime}
 		where 
 			id = #{id}
@@ -37,12 +41,12 @@
 	</delete>
 	
 	<select id="getArticles" resultMap="ArticleResult">
-		SELECT id, title, detail, create_time, update_time
+		SELECT id, title, detail,date_time, create_time, update_time
 		FROM t_article
 	</select>
 	
 	<select id="getArticle" resultMap="ArticleResult" parameterType="Long">
-		SELECT id, title, detail, create_time, update_time
+		SELECT id, title, detail,date_time, create_time, update_time
 		FROM t_article
 		WHERE id = #{id}
 	</select>

@@ -23,78 +23,35 @@
 
 		<script type="text/javascript" src="static/js/jquery-1.7.2.js"></script>
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
-		
 <script type="text/javascript">
-	
-	//保存
-	function save(){
-		$("#Form").submit();
-	}
-	
+
 </script>
 	</head>
 <body>
-	<form action="bg/exchangeEdit.do" name="Form" id="Form" method="post" enctype="multipart/form-data">
+	<form action="bg/hotKeyEdit.do" name="Form" id="Form" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="id" id="id" value="${hotKey.id}"/>
+		<input type="hidden" name="detail" id="detail" />
 		<div id="zhongxin">
-		<table id="table_report" class="table table-striped table-bordered table-hover">
-			<tr>
-				<th colspan="2" style="text-align: center;">兑换状态修改
-				<input type="hidden" name="id" value="${id}">
-				</th>
-			</tr>
-			<tr>
-				<th>姓名:</th>
-				<td>${name}</td>
-			</tr>
-			<tr>
-				<th>手机:</th>
-				<td>${mobile}</td>
-			</tr>
-			<tr>
-				<th>兑换积分:</th>
-				<td>${money}</td>
-			</tr>
+			<div style="text-align: center;padding: 20px;">
+				<span style="font-size: 20px;">添加热门关键字</span>
+			</div>
+			
+			<table id="table_report" class="table table-striped table-bordered table-hover">
 				<tr>
-				<th>收件人:</th>
-				<td>${recharge.userName}</td>
-			</tr>
-			<tr>
-				<th>联系手机:</th>
-				<td>${recharge.userMobile}</td>
-			</tr>
-			<tr>
-				<th>邮寄地址:</th>
-				<td>${recharge.address}</td>
-			</tr>
-
-			<tr>
-				<th>兑换商品:</th>
-				<td>${recharge.productName}</td>
-			</tr>
-			<tr>
-				<th>兑换数量:</th>
-				<td>${recharge.amount}</td>
-			</tr>
-			<tr>
-				<th>兑换状态:</th>
-				<td>
-					<select name="status">
-				 		<option <c:if test="${status==1}"> selected="selected" </c:if> value="1">处理中</option>
-				 		<option <c:if test="${status==2}"> selected="selected" </c:if> value="2">已兑换</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td style="text-align: center;" colspan="2">
-					<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
-					<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
-				</td>
-			</tr>
-		</table>
+					<th nowrap="nowrap">关键字:</th>
+					<td>
+						<input id="keyWord" type="text" name="keyWord" value="${hotKey.keyWord}"/>
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align: center;" colspan="2">
+						<a class="btn btn-mini btn-primary" onclick="saveHotKey();">保存</a>
+						<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
+					</td>
+				</tr>
+			</table>
 		</div>
-		
 		<div id="zhongxin2" class="center" style="display:none"><br/><br/><br/><br/><br/><img src="static/images/jiazai.gif" /><br/><h4 class="lighter block green">提交中...</h4></div>
-		
 	</form>
 	
 	
@@ -115,22 +72,11 @@
 		<script src="static/assets/js/ace/ace.js"></script>
 		<script type="text/javascript">
 		$(top.hangge());
-		$(function() {
-			//上传
-			$('#tp').ace_file_input({
-				no_file:'请选择图片 ...',
-				btn_choose:'选择',
-				btn_change:'更改',
-				droppable:false,
-				onchange:null,
-				thumbnail:false, //| true | large
-				whitelist:'gif|png|jpg|jpeg',
-				//blacklist:'gif|png|jpg|jpeg'
-				//onchange:''
-				//
-			});
-			
-		});
+		function saveHotKey(){
+			$("#Form").submit();
+			$("#zhongxin").hide();
+			$("#zhongxin2").show();
+		}
 		
 		</script>
 </body>

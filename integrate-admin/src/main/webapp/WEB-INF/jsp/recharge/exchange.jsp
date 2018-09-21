@@ -197,7 +197,7 @@
 			 diag.Title ="编辑";
 			 diag.URL = "<%=basePath%>bg/exchangeToEdit.do?id="+id+"&name="+name+"&mobile="+mobile+"&status="+status+"&money="+money+"&tm="+new Date().getTime();
 			 diag.Width = 600;
-			 diag.Height = 305;
+			 diag.Height = 460;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					 nextPage(${page.currentPage});

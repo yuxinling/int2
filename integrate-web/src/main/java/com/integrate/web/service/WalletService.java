@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.google.common.collect.Interner;
 import com.google.common.collect.Interners;
+import com.integrate.common.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,6 +133,41 @@ public class WalletService {
 				if (!addRecord) {
 					throw new BusinessException(R.SYS_FAIL, "生成流水失败");
 				}
+			}
+		}
+
+		return true;
+
+	}
+	// 兑换 和充值
+	@Transactional
+	public boolean addRechrageRecorde2(Long userId,int money, String mobile, String userName, String address, long productId, int amount) {
+		// 插入流水表
+		long currentTime = System.currentTimeMillis();
+		// 先生成内部订单
+		long orderId = GlobalIDUtil.createID(currentTime);
+
+		synchronized (lockKeys.intern(String.valueOf(userId))) {
+			Integer integrate = userintegrate(userId);
+			if (money > integrate) {
+				throw new BusinessException(SysMsgEnumType.INTEGRATE_FAIL);
+			}
+
+			long rechargeId = walletDao.addRechrageRecorde(0, 0, userId, money, 1, orderId, 1, null,mobile, userName, address, productId, amount);
+			if (rechargeId < 1) {
+				throw new BusinessException(R.SYS_FAIL, "兑换失败");
+			}
+
+			// 扣除用户积分
+			boolean updateIntegrate = userDao.updateIntegrate(userId, money);
+			if (!updateIntegrate) {
+				throw new BusinessException(R.SYS_FAIL, "扣除用户积分失败");
+			}
+
+			logger.warn("addRechrageRecorde userId:{}, type:{}, money:{}, orderId:{}", userId, 1, money, orderId);
+			boolean addRecord = addRecord(userId, orderId + "", rechargeId, 0, money, 2, 1, currentTime);
+			if (!addRecord) {
+				throw new BusinessException(R.SYS_FAIL, "生成流水失败");
 			}
 		}
 

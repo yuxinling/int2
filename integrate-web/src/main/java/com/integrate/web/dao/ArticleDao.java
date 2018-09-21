@@ -26,6 +26,7 @@ public class ArticleDao {
 			Article r = new Article();
 			r.setId(rs.getLong("id"));
 			r.setTitle(rs.getString("title"));
+			r.setDateTime(rs.getString("date_time"));
 			r.setCreateTime(rs.getLong("create_time"));
 			r.setUpdateTime(rs.getLong("update_time"));
 			
@@ -49,7 +50,7 @@ public class ArticleDao {
 	};
 	
 	public List<Map<String,Object>> getArticleTitles(){
-		String sql="select id,title from t_article" ;
+		String sql="select id,title,date_time as dateTime from t_article" ;
 		return jdbc.queryForList(sql,new Object[]{});
 	}
 	

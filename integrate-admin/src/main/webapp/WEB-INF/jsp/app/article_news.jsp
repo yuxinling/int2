@@ -39,9 +39,10 @@ li {
 						<table id="table_report" class="table table-striped table-bordered table-hover">
 							<thead>
 								<tr>
-									<th>序号</th>
-									<th>标题</th>
-									<th>操作</th>
+									<th class="center">序号</th>
+									<th class="center">标题</th>
+									<th class="center">日期</th>
+									<th class="center">操作</th>
 								</tr>
 							</thead>
 
@@ -52,7 +53,8 @@ li {
 										<c:forEach items="${articles}" var="var" varStatus="vs">
 											<tr>
 												<td style="width: 20%;text-align: center;vertical-align: middle;">${var.id}</td>
-												<td style="width: 60%;text-align: center;vertical-align: middle;">${var.title}</td>
+												<td style="width: 50%;text-align: center;vertical-align: middle;">${var.title}</td>
+												<td style="width: 10%;text-align: center;vertical-align: middle;">${var.dateTime}</td>
 												<td style="width: 20%;text-align: center;vertical-align: middle;">
 													<a style="cursor: pointer;" title="编辑" onclick="editArticle('${var.id}')" 
 														class="tooltip-success" data-rel="tooltip" title="" data-placement="left">
@@ -61,6 +63,7 @@ li {
 													
 													<a style="cursor:pointer;" title="详细" onclick="viewArticle('${var.id}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="pink"><i class="icon-list"></i></span></a>
 													<a style="cursor:pointer;" title="删除" onclick="deleteArticle('${var.id}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-remove"></i></span></a>
+
 												</td>
 											</tr>
 										</c:forEach>

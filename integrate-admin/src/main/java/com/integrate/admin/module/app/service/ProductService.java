@@ -42,6 +42,8 @@ public class ProductService {
 	public Product getProduct(Long id) throws Exception {
 		return (Product) dao.findForObject("ProductMapper.getProduct", id);
 	}
+
+
 	
 	public int deleteProduct(Long id) throws Exception {
 		return (int) dao.delete("ProductMapper.deleteProduct", id);

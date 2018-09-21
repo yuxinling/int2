@@ -15,6 +15,11 @@
 		<result column="status" property="status" />
 		<result column="is_artificial" property="artificial" />
 		<result column="proxy_user_id" property="proxyUserId" />
+		<result column="user_mobile" property="userMobile" />
+		<result column="user_name" property="userName" />
+		<result column="address" property="address" />
+		<result column="product_id" property="productId" />
+		<result column="amount" property="amount" />
 	</resultMap>
 
 	<select id="datalistPage" parameterType="map" resultMap="recharge">
@@ -65,6 +70,12 @@
 		</if>
 		ORDER BY id DESC
 
+	</select>
+
+	<select id="getRecharge" resultMap="recharge" parameterType="Long">
+		SELECT *
+		FROM t_rechrage
+		WHERE id = #{id}
 	</select>
 
 </mapper>

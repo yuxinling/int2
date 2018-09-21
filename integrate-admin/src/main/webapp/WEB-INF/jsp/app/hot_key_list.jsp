@@ -30,29 +30,28 @@
 			<form action="bg/userList.do" method="post" name="Form" id="Form">
 			<!-- 检索  -->
 			<div style="width: 100%;text-align: right;margin-bottom: 10px;">
-				<a class="btn btn-mini btn-info" onclick="addProduct();" style="margin-right: 50px;"><i>添加商品</i></a>
+				<a class="btn btn-mini btn-info" onclick="addHotKey();" style="margin-right: 50px;"><i>添加关键字</i></a>
 			</div>
 			<table id="table_report" class="table table-striped table-bordered table-hover">
 				<thead>
 					<tr>
 						<th>序号</th>
-						<th>名称</th>
-						<th>兑换积分</th>
-						<th>上架时间</th>
+						<th>热门关键字</th>
 						<th class="center">操作</th>
 					</tr>
 				</thead>
 				<tbody>
 				<!-- 开始循环 -->
 				<c:choose>
-					<c:when test="${not empty products}">
-						<c:forEach items="${products}" var="var" varStatus="vs">
+					<c:when test="${not empty hotKeys}">
+						<c:forEach items="${hotKeys}" var="var" varStatus="vs">
 							<tr>
-								<td class='center' style="width: 15%;">${var.id}</td>
-								<td style="width: 30%;" >${var.name}</td>
-								<td style="width: 15%;" >${var.integrate}</td>
-								<td style="width: 20%;" >${var.createTime}</td>
-								<td style="width: 20%;" ></td>
+								<td class='center' style="width: 20%;">${var.id}</td>
+								<td class='center' style="width: 50%;">${var.keyWord}</td>
+								<td class='center' style="width: 30%;" >
+									<a style="cursor: pointer;" title="编辑" onclick="editHotKey('${var.id}')" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"> <span class="green"><i class="icon-edit"></i></span> </a>
+									<a style="cursor: pointer;" title="删除" onclick="deleteHotKey('${var.id}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-remove"></i></span></a>
+								</td>
 							</tr>
 						</c:forEach>
 					</c:when>
@@ -98,76 +97,53 @@
 			$("Form").submit();
 		}
 		
-		function addProduct(){
-			 location.replace("bg/productToEdit.do?tm="+new Date().getTime())
+		function addHotKey(){
 			 
-			 /*top.jzts();
+			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="添加商品";
-			 diag.URL = "<%=basePath%>bg/productToEdit.do?tm="+new Date().getTime();
-			 diag.Width = 850;
-			 diag.Height = 600;
+			 diag.URL = "<%=basePath%>bg/hotKeyToEdit.do?tm="+new Date().getTime();
+			 diag.Width = 500;
+			 diag.Height = 300;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					 location.reload();
 				}
 				diag.close();
 			 };
-			 diag.show();*/
+			 diag.show();			
+		}
+		function editHotKey(id){
+
+			 top.jzts();
+			 var diag = new top.Dialog();
+			 diag.Drag=true;
+			 diag.Title ="添加商品";
+			 diag.URL = "<%=basePath%>bg/hotKeyToEdit.do?id="+id+"&tm="+new Date().getTime();
+			 diag.Width = 500;
+			 diag.Height = 300;
+			 diag.CancelEvent = function(){ //关闭事件
+				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
+					 location.reload();
+				}
+				diag.close();
+			 };
+			 diag.show();
 		}
 
-		//冻结 解冻
-		function editFreeze(id,isFreeze){
-			if(confirm("改变冻结状态")){ 
-				if(isFreeze==0){
-					isFreeze=1;
-				}else{
-					isFreeze=0;
-				}
+		function deleteHotKey(id) {
+			if (confirm("确定要删除？")) {
 				top.jzts();
-				var url = "<%=basePath%>bg/isfreezeEdit.do?userId="+id+"&isFreeze="+isFreeze;
-				$.get(url,function(data){
-					nextPage(${page.currentPage});
+				var url = "<%=basePath%>bg/hotKeyDelete.do?id=" + id + "&tm=" + new Date().getTime();
+				$.get(url, function (data) {
+					location.reload();
 				});
 			}
 		}
-		
-		
 
-		function record(userId){
-			top.jzts();
-			var diag = new top.Dialog();
-			diag.Drag=true;
-			diag.Title ="详细记录";
-			diag.URL = '<%=basePath%>bg/usertorecord.do?userId='+userId;
-			diag.Width = 1000;
-			diag.Height = 650;
-			diag.CancelEvent = function(){ //关闭事件
-				if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					nextPage(${page.currentPage});
-				}
-				diag.close();
-			};
-			diag.show();
-		}
-		
-		function freezeAll(){
-			if(confirm("确定全部冻结？")){
-	 			$.ajax({    
-					url:'bg/freezeAll.do',
-					data: {},
-					type:'post',
-					dataType:'json',
-					success:function(data) {
-						if(data["code"] == 200){
-							$("Form").submit();
-						}
-					},    
-					error : function() {}    
-				}); 
-			}
-		}
+
+
 		</script>
 	</body>
 </html>

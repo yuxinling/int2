@@ -22,12 +22,15 @@ public class Rechrage {
 
 	private int isFreeze;
 
+	private String userMobile;
+	private String userName;
+	private String address;
+	private Long productId;
+	private int amount;
+
 	//id,money,TIME,trade_no,is_artificial,proxy_user_id
 	private long proxyUserId;
 	private int artificial;
-	
-	
-	
 	
 	public long getProxyUserId() {
 		return proxyUserId;
@@ -124,6 +127,44 @@ public class Rechrage {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	
-	
+
+	public String getUserMobile() {
+		return userMobile;
+	}
+
+	public void setUserMobile(String userMobile) {
+		this.userMobile = userMobile;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Long getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Long productId) {
+		this.productId = productId;
+	}
+
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
 }

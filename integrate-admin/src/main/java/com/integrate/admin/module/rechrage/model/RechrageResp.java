@@ -20,6 +20,12 @@ public class RechrageResp {
 	private int status;
 	
 	private String proxyName;
+
+	private String userMobile;
+	private String userName;
+	private String address;
+	private String productName;
+	private int amount;
 	
 
 	public String getProxyName() {
@@ -101,5 +107,44 @@ public class RechrageResp {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	
+
+	public String getUserMobile() {
+		return userMobile;
+	}
+
+	public void setUserMobile(String userMobile) {
+		this.userMobile = userMobile;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
 }

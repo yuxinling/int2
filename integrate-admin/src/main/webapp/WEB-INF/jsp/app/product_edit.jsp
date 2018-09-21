@@ -42,11 +42,11 @@
 		<input type="hidden" name="id" id="id" value="${article.id}"/>
 		<input type="hidden" name="detail" id="detail" />
 		<div id="zhongxin">
-			<div style="text-align: center;">
+			<div style="text-align: center;padding: 20px;">
 				<span style="font-size: 20px;">添加商品</span>
 			</div>
 			
-			<table id="table_report" class="table table-striped table-bordered table-hover">
+			<table id="table_report" class="table">
 				<tr>
 					<th nowrap="nowrap">商品名称:</th>
 					<td>
@@ -57,15 +57,21 @@
 					<th nowrap="nowrap">缩略图片:</th>
 					<td>
 						<div style="padding-bottom: 5px;">
-						<img alt="" width="150" height="150"  src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1537500267&di=e595eae82dcd7015899604bd13702e52&imgtype=jpg&er=1&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fzhidao%2Fwh%253D450%252C600%2Fsign%3D3267847dcbea15ce41bbe80d833016c5%2F4bed2e738bd4b31cb65d7e4385d6277f9f2ff8e1.jpg">
+						<img id="thumbnail" alt="" width="150" height="150"  src="..." class="img-rounded" />
 						</div>
-						<input type="file" id="thumbnail" name="thumbnail" onchange="fileType(this)"/>
+						<%--<input type="file" id="thumbnail" name="thumbnail" onchange="fileType(this)"/>--%>
 					</td>
 				</tr>
 				<tr>
 					<th nowrap="nowrap">兑换积分:</th>
 					<td>
 						<input id="title" type="text" name="title" value="${article.title}" style="width:720px;"/>
+					</td>
+				</tr>
+				<tr>
+					<th nowrap="nowrap">商品图片:</th>
+					<td>
+
 					</td>
 				</tr>
 				<tr>

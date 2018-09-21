@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="HotKeyMapper">
+	<resultMap id="HotKeyResult" type="com.integrate.model.HotKey">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="keyword" property="keyWord" jdbcType="VARCHAR" />
+		<result column="sort" property="sort" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="BIGINT" />
+		<result column="update_time" property="updateTime" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<insert id="insertHotKey" parameterType="com.integrate.model.HotKey" useGeneratedKeys="true"  keyProperty="id" keyColumn="id">
+		INSERT INTO t_hot_key (
+			keyword,
+			sort, 
+			create_time, 
+			update_time
+		) VALUES (
+			#{keyWord},
+			#{sort},
+			#{createTime},
+			#{updateTime}
+		)
+	</insert>
+	
+	<update id="updateHotKey" parameterType="com.integrate.model.HotKey">
+		UPDATE t_hot_key set
+			keyword = #{keyWord},
+			sort = #{sort},
+			update_time = #{updateTime}
+		where 
+			id = #{id}
+	</update>
+	
+	<delete id="deleteHotKey" parameterType="Long">
+		DELETE FROM t_hot_key WHERE id = #{id};
+	</delete>
+	
+	<select id="getHotKeys" resultMap="HotKeyResult">
+		SELECT id, keyword, sort, create_time, update_time
+		FROM t_hot_key
+	</select>
+
+
+	<select id="getHotKey" resultMap="HotKeyResult" parameterType="Long">
+		SELECT id, keyword, sort, create_time, update_time
+		FROM t_hot_key
+		WHERE id = #{id}
+	</select>
+
+</mapper>

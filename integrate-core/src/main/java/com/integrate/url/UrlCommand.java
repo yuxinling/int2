@@ -114,6 +114,9 @@ public interface UrlCommand {
 	String app_edit="bg/appEdit";
 	String image_new="bg/imageNews";
 	String image_upload="bg/images/upload";
+	String image_thumbnail_upload="bg/images/thumbnailUpload";
+	String image_thumbnail_delete="bg/images/thumbnailDelete";
+	String image_delete="bg/imageDelete";
 	String article_new="bg/articleNews";
 	String article_new_goto_edit="bg/articleNewToEdit";
 	String article_new_goto_view="bg/articleNewToView";
@@ -121,6 +124,7 @@ public interface UrlCommand {
 	String article_new_delete="bg/articleNewDelete";
 	String product_list = "bg/productList";
 	String product_goto_edit = "bg/productToEdit";
+	String product_edit = "bg/productEdit";
 	String hot_key = "bg/hotKeyList";
 	String hot_key_goto_edit = "bg/hotKeyToEdit";
 	String hot_key_edit = "bg/hotKeyEdit";

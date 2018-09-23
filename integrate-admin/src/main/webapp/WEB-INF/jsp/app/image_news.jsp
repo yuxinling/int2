@@ -2,6 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
+
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -17,8 +20,8 @@
 <link rel="stylesheet" href="static/css/ace-skins.min.css" />
 <link rel="stylesheet" href="static/assets/css/font-awesome.css" />
 
-	<link rel="stylesheet" type="text/css" href="plugins/imguploadify/base.css">
-	<link rel="stylesheet" type="text/css" href="plugins/imguploadify/home.css">
+<link rel="stylesheet" type="text/css" href="plugins/imguploadify/base.css">
+<link rel="stylesheet" type="text/css" href="plugins/imguploadify/home.css">
 <!-- ace styles -->
 <link rel="stylesheet" href="static/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
 <script type="text/javascript" src="static/js/jquery-1.7.2.js"></script> 
@@ -39,7 +42,6 @@
 							<div class="aui-form-input">
 								<div class="aui-content-img-box aui-content-full">
 									<div class="aui-photo aui-up-img clear">
-<%--
 
 										<c:choose>
 											<c:when test="${not empty images}">
@@ -48,27 +50,20 @@
 														<span class="aui-up-span"></span>
 														<img class="aui-close-up-img" src="plugins/imguploadify/close.png">
 														<img class="aui-to-up-img" src="${var.src}">
-
 														<p class="img-aui-img-name-p"></p>
+														<input type="hidden" name="imageId" value="${var.id}">
 													</section>
 												</c:forEach>
 											</c:when>
 										</c:choose>
---%>
 
-
-
-										<section class="aui-file-up fl">
+										<section class="aui-file-up fl" <c:if test="${fn:length(images)>=5}" > style="display: none" </c:if> >
 											<img src="plugins/imguploadify/up.png" class="add-img">
-											<input type="file" name="file" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple="">
+											<input type="file" name="imageUp" id="imageUp" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple="">
 										</section>
 									</div>
 								</div>
 							</div>
-						</div>
-
-						<div class="aui-btn-default">
-							<button class="aui-btn aui-btn-account">保存</button>
 						</div>
 						
 					</form>
@@ -93,6 +88,8 @@
 	<!-- mask end -->
 
 	<script type="text/javascript">
+		var imageCount = 5;
+
 		$(top.hangge());
 
 		$(function() {
@@ -116,10 +113,10 @@
 				var numUp = imgContainer.find(".aui-up-section").length;
 				var totalNum = numUp + fileList.length;
 				//图片总的数量可自定义
-				if (fileList.length > 3 || totalNum > 3) {
-					alert("你好！上传图片不得超过3张，请重新选择");
+				if (fileList.length > imageCount || totalNum > imageCount) {
+					alert("你好！上传图片不得超过"+imageCount+"张，请重新选择");
 					//一次选择上传超过3个  自己定义
-				} else if (numUp <= 5) {
+				} else if (numUp <= imageCount) {
 					fileList = validateUp(fileList);
 					for (var i = 0; i < fileList.length; i++) {
 						var imgUrl = window.URL.createObjectURL(fileList[i]);
@@ -143,7 +140,7 @@
 						$p.html(fileList[i].name).appendTo($section);
 						var $input = $("<input id='actionId' name='actionId' value='' type='hidden'>");
 						$input.appendTo($section);
-						var $input2 = $("<input type='file' id='imageUp' name='imageUp' value='"+imgUrl+"' type='hidden'/>");
+						var $input2 = $("<input id='tagId' name='tagId' value='' type='hidden'/>");
 						$input2.appendTo($section);
 
 					}
@@ -171,12 +168,15 @@
 			});
 
 			$(".aui-accept-ok").click(function() {
-				$(".aui-works-mask").hide();
-				var numUp = delParent.siblings().length;
-				if (numUp < 3) {
-					delParent.parent().find(".aui-file-up").show();
-				}
-				delParent.remove();
+				//$(".aui-works-mask").hide();
+				//var numUp = delParent.siblings().length;
+				//if (numUp < imageCount) {
+				//	delParent.parent().find(".aui-file-up").show();
+				//}
+				//delParent.remove();
+
+				var imageId = delParent.find("input[name='imageId']").val();
+				deleteImage(imageId,delParent)
 
 			});
 
@@ -213,11 +213,11 @@
 
 		});
 
-		function uploadImage(fileId) {
-			alert(1);
+		function uploadImage() {
 
 			var formData = new FormData();
-			formData.append("imageUp", document.getElementById(fileId).files[0]);
+			formData.append("image", document.getElementById("imageUp").files[0]);
+			formData.append("rid", "0");
 			$.ajax({
 				url: "bg/images/upload.do",
 				type: "POST",
@@ -225,13 +225,36 @@
 				contentType: false,
 				processData: false,
 				success: function (data) {
-
+					location.reload();
 				},
 				error: function () {
 
 				}
 			});
 		};
+
+		function deleteImage(id,delParent){
+			$(".aui-works-mask").hide();
+			$.ajax({
+				url:"<%=basePath%>bg/imageDelete.do?id="+id+"&tm="+new Date().getTime(),
+				data: {},
+				type:'post',
+				dataType:'json',
+				success:function(data) {
+					if(data.code == 200){
+						var numUp = delParent.siblings().length;
+						if (numUp < imageCount) {
+							delParent.parent().find(".aui-file-up").show();
+						}
+						delParent.remove();
+
+					}
+				},
+				error : function() {
+
+				}
+			});
+		}
 
 	</script>
 </body>

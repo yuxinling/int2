@@ -52,7 +52,15 @@
 								<td style="width: 30%;" >${var.name}</td>
 								<td style="width: 15%;" >${var.integrate}</td>
 								<td style="width: 20%;" >${var.createTime}</td>
-								<td style="width: 20%;" ></td>
+								<td class="center" style="width: 20%;" >
+									<a style="cursor: pointer;" title="编辑" onclick="editProduct('${var.id}')"
+									   class="tooltip-success" data-rel="tooltip" title="" data-placement="left">
+										<span class="green"><i class="icon-edit"></i></span>
+									</a>
+
+									<a style="cursor:pointer;" title="详细" onclick="viewProduct('${var.id}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="pink"><i class="icon-list"></i></span></a>
+									<a style="cursor:pointer;" title="删除" onclick="deleteProduct('${var.id}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-remove"></i></span></a>
+								</td>
 							</tr>
 						</c:forEach>
 					</c:when>
@@ -99,75 +107,28 @@
 		}
 		
 		function addProduct(){
-			 location.replace("bg/productToEdit.do?tm="+new Date().getTime())
 			 
-			 /*top.jzts();
+			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="添加商品";
 			 diag.URL = "<%=basePath%>bg/productToEdit.do?tm="+new Date().getTime();
-			 diag.Width = 850;
-			 diag.Height = 600;
+			 diag.Width = 600;
+			 diag.Height = 400;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
 					 location.reload();
 				}
 				diag.close();
 			 };
-			 diag.show();*/
+			 diag.show();
 		}
 
-		//冻结 解冻
-		function editFreeze(id,isFreeze){
-			if(confirm("改变冻结状态")){ 
-				if(isFreeze==0){
-					isFreeze=1;
-				}else{
-					isFreeze=0;
-				}
-				top.jzts();
-				var url = "<%=basePath%>bg/isfreezeEdit.do?userId="+id+"&isFreeze="+isFreeze;
-				$.get(url,function(data){
-					nextPage(${page.currentPage});
-				});
-			}
+		function editProduct(id){
+			location.replace("bg/productToEdit.do?id="+id+"&tm="+new Date().getTime());
 		}
-		
-		
 
-		function record(userId){
-			top.jzts();
-			var diag = new top.Dialog();
-			diag.Drag=true;
-			diag.Title ="详细记录";
-			diag.URL = '<%=basePath%>bg/usertorecord.do?userId='+userId;
-			diag.Width = 1000;
-			diag.Height = 650;
-			diag.CancelEvent = function(){ //关闭事件
-				if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					nextPage(${page.currentPage});
-				}
-				diag.close();
-			};
-			diag.show();
-		}
-		
-		function freezeAll(){
-			if(confirm("确定全部冻结？")){
-	 			$.ajax({    
-					url:'bg/freezeAll.do',
-					data: {},
-					type:'post',
-					dataType:'json',
-					success:function(data) {
-						if(data["code"] == 200){
-							$("Form").submit();
-						}
-					},    
-					error : function() {}    
-				}); 
-			}
-		}
+
 		</script>
 	</body>
 </html>

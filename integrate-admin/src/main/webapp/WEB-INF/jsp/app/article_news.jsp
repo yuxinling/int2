@@ -101,7 +101,7 @@ li {
 	<script type="text/javascript">
 		$(top.hangge());
 		function addArticle(){
-			 top.jzts();
+			 /*top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="编辑";
@@ -114,10 +114,13 @@ li {
 				}
 				diag.close();
 			 };
-			 diag.show();			
+			 diag.show();*/
+
+
+			location.replace("bg/articleNewToEdit.do?tm=" + new Date().getTime());
 		}
 		function editArticle(id){
-			 top.jzts();
+			 /*top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="编辑";
@@ -130,10 +133,15 @@ li {
 				}
 				diag.close();
 			 };
-			 diag.show();			
+			 diag.show();*/
+
+			location.replace("bg/articleNewToEdit.do?id="+id+"&tm="+new Date().getTime());
+
+
+
 		}
 		function viewArticle(id){
-			 var diag = new top.Dialog();
+		/*	 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="查看";
 			 diag.URL = "<%=basePath%>bg/articleNewToView.do?id="+id+"&tm="+new Date().getTime();
@@ -142,7 +150,8 @@ li {
 			 diag.CancelEvent = function(){ //关闭事件
 				diag.close();
 			 };
-			 diag.show();			
+			 diag.show();*/
+			location.replace("bg/articleNewToView.do?id="+id+"&tm="+new Date().getTime());
 		}
 		
 	<%-- 	function deleteArticle(id){

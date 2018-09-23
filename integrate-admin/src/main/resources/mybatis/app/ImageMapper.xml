@@ -33,6 +33,10 @@
 		FROM t_image
 		WHERE rid = #{rid} ORDER BY sort ASC 
 	</select>
+
+	<delete id="deleteImage" parameterType="Long">
+		DELETE FROM t_image WHERE id = #{id};
+	</delete>
 	
 	
 </mapper>

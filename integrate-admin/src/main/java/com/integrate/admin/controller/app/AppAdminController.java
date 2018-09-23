@@ -13,6 +13,7 @@ import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -117,7 +118,7 @@ public class AppAdminController extends BaseController {
     }
 
     @RequestMapping(value = UrlCommand.image_upload)
-    public ModelAndView getImageNews(HttpServletRequest request, @RequestParam(value = "imageUp", required = false) MultipartFile file) {
+    public ModelAndView uploadImage(HttpServletRequest request, @RequestParam(value = "image", required = false) MultipartFile file) {
 
         String rid = request.getParameter("rid");
         ModelAndView mv = this.getModelAndView();
@@ -130,7 +131,7 @@ public class AppAdminController extends BaseController {
 
                 //String filePath = PathUtil.getClasspath() + Const.FILEPATHIMG;								//文件上传路径
                 String filePath = request.getSession().getServletContext().getRealPath("/") + "/" + Const.FILEPATHIMG;                                //文件上传路径
-                String fileName = FileUpload.fileUp(file, filePath, file.getName());
+                String fileName = FileUpload.fileUp(file, filePath, fi.getName());
 
 
                 String url = new StringBuilder("http://")
@@ -145,15 +146,16 @@ public class AppAdminController extends BaseController {
 
 
                 image.setSrc(url);
+                image.setTitle(fileName);
             }
 
             if (StringUtils.isBlank(rid)) {
                 rid = "0";
             }
             image.setRid(Long.valueOf(rid));
-
-            imageService.insertImage(image);
-
+            if(StringUtils.isNotBlank(image.getSrc())){
+                imageService.insertImage(image);
+            }
             List<Image> images = imageService.getImages(0L);
             mv.addObject("images", images);
             mv.setViewName("app/image_news");
@@ -163,6 +165,109 @@ public class AppAdminController extends BaseController {
         return mv;
 
     }
+    @RequestMapping(value = UrlCommand.image_thumbnail_upload, produces = "application/json;charset=UTF-8")
+    public Object uploadImageThumbnail(HttpServletRequest request, @RequestParam(value = "image", required = false) MultipartFile file) {
+
+        String rid = request.getParameter("rid");
+
+        try {
+            if (file != null && StringUtils.isNotBlank(rid)) {
+                Product product = productService.getProduct(Long.valueOf(rid));
+                if(product != null ){
+                    CommonsMultipartFile cf = (CommonsMultipartFile) file;
+                    DiskFileItem fi = (DiskFileItem) cf.getFileItem();
+                    File f = fi.getStoreLocation();
+
+                    //String filePath = PathUtil.getClasspath() + Const.FILEPATHIMG;								//文件上传路径
+                    String filePath = request.getSession().getServletContext().getRealPath("/") + "/" + Const.FILEPATHIMG;                                //文件上传路径
+                    String fileName = FileUpload.fileUp(file, filePath, fi.getName());
+
+
+                    String url = new StringBuilder("http://")
+                            .append(request.getServerName())
+                            .append(":")
+                            .append(request.getServerPort())
+                            .append(request.getContextPath())
+                            .append("/")
+                            .append(Const.FILEPATHIMG)
+                            .append(fileName)
+                            .toString();
+                    product.setThumbnail(url);
+                    productService.updateProduct(product);
+
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ModelAndView mv = this.getModelAndView();
+        mv.addObject("msg", "success");
+        mv.setViewName("save_result");
+        return mv;
+
+    }
+
+    @RequestMapping(value = UrlCommand.image_thumbnail_delete, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public Object deleteImageThumbnail(HttpServletRequest request) {
+
+        String rid = request.getParameter("rid");
+
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("code", 200);
+        result.put("msg", "删除失败！");
+        try {
+            if (StringUtils.isNotBlank(rid)) {
+                Product product = productService.getProduct(Long.valueOf(rid));
+                if (product != null) {
+
+                    product.setThumbnail(null);
+                    productService.updateProduct(product);
+
+                    result.put("msg", "删除成功！");
+                }
+
+            }
+
+        } catch (Exception e) {
+            logger.error(e.toString(), e);
+            if (e instanceof BusinessException) {
+                BusinessException be = (BusinessException) e;
+                result.put("msg", be.getMessage());
+            }
+        }
+        return AppUtil.returnObject(new PageData(), result);
+
+    }
+
+
+    @RequestMapping(value = UrlCommand.image_delete, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public Object deleteImage(HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("code", 200);
+        result.put("msg", "删除失败！");
+        try {
+            String id = request.getParameter("id");
+            if (StringUtils.isNotBlank(id)) {
+                int count = imageService.deleteImage(Long.valueOf(id));
+                if (count == 1) {
+                    result.put("msg", "删除成功");
+                }
+            }
+
+        } catch (Exception e) {
+            logger.error(e.toString(), e);
+            if (e instanceof BusinessException) {
+                BusinessException be = (BusinessException) e;
+                result.put("msg", be.getMessage());
+            }
+        }
+        return AppUtil.returnObject(new PageData(), result);
+    }
+
 
     @RequestMapping(value = UrlCommand.article_new)
     public ModelAndView getArticleNews(HttpServletRequest request) {
@@ -212,6 +317,7 @@ public class AppAdminController extends BaseController {
 
     @RequestMapping(value = UrlCommand.article_new_edit)
     public ModelAndView saveArticleNew(HttpServletRequest request) {
+        ModelAndView mv = this.getModelAndView();
         try {
             String id = request.getParameter("id");
             String title = request.getParameter("title");
@@ -235,12 +341,14 @@ public class AppAdminController extends BaseController {
                     articleService.updateArticle(article);
                 }
             }
+
+            List<Article> articles = articleService.getArticles();
+            mv.addObject("articles", articles);
+            mv.setViewName("app/article_news");
         } catch (Exception e) {
             logger.error(e.toString(), e);
         }
-        ModelAndView mv = this.getModelAndView();
-        mv.addObject("msg", "success");
-        mv.setViewName("save_result");
+
         return mv;
     }
 
@@ -293,8 +401,38 @@ public class AppAdminController extends BaseController {
             if (StringUtils.isNotBlank(id)) {
                 Product product = productService.getProduct(Long.valueOf(id));
                 mv.addObject("product", product);
+                mv.setViewName("app/product_edit");
+            }else{
+                mv.setViewName("app/product_add");
             }
-            mv.setViewName("app/product_edit");
+        } catch (Exception e) {
+            logger.error(e.toString(), e);
+        }
+        return mv;
+    }
+
+    @RequestMapping(value = UrlCommand.product_edit)
+    public ModelAndView updateProduct(HttpServletRequest request,@ModelAttribute Product product) {
+        ModelAndView mv = this.getModelAndView();
+        try {
+            String id = request.getParameter("id");
+            if (StringUtils.isNotBlank(id)) {
+
+                product.setUpdateTime(System.currentTimeMillis());
+                productService.updateProduct(product);
+
+                List<Product> products = productService.getProducts();
+                mv.addObject("products", products);
+                mv.setViewName("app/product_list");
+
+            }else {
+
+                product.setCreateTime(System.currentTimeMillis());
+                product.setUpdateTime(product.getCreateTime());
+                productService.insertProduct(product);
+                mv.addObject("msg", "success");
+                mv.setViewName("save_result");
+            }
         } catch (Exception e) {
             logger.error(e.toString(), e);
         }

@@ -30,6 +30,9 @@ public class ImageService {
 		}
 		return null;
 	}
+	public int deleteImage(Long id) throws Exception{
+		return (int) dao.delete("ImageMapper.deleteImage", id);
+	}
 	
 	@SuppressWarnings("unchecked")
 	public List<Image> getImages(Long rid) throws Exception{

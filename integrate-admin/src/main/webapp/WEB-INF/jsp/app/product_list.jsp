@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<jsp:useBean id="dateValue" class="java.util.Date"/>
+
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -35,10 +37,10 @@
 			<table id="table_report" class="table table-striped table-bordered table-hover">
 				<thead>
 					<tr>
-						<th>序号</th>
-						<th>名称</th>
-						<th>兑换积分</th>
-						<th>上架时间</th>
+						<th  class="center" >序号</th>
+						<th  class="center" >名称</th>
+						<th  class="center" >兑换积分</th>
+						<th  class="center" >上架时间</th>
 						<th class="center">操作</th>
 					</tr>
 				</thead>
@@ -48,10 +50,13 @@
 					<c:when test="${not empty products}">
 						<c:forEach items="${products}" var="var" varStatus="vs">
 							<tr>
-								<td class='center' style="width: 15%;">${var.id}</td>
-								<td style="width: 30%;" >${var.name}</td>
-								<td style="width: 15%;" >${var.integrate}</td>
-								<td style="width: 20%;" >${var.createTime}</td>
+								<td class="center" class='center' style="width: 15%;">${vs.index + 1}</td>
+								<td class="center" style="width: 30%;" >${var.name}</td>
+								<td class="center" style="width: 15%;" >${var.integrate}</td>
+								<td class="center" style="width: 20%;" >
+									<jsp:setProperty name="dateValue" property="time" value="${var.createTime}"/>
+									<fmt:formatDate value="${dateValue}" pattern="yyyy-MM-dd HH:mm:ss"/>
+								</td>
 								<td class="center" style="width: 20%;" >
 									<a style="cursor: pointer;" title="编辑" onclick="editProduct('${var.id}')"
 									   class="tooltip-success" data-rel="tooltip" title="" data-placement="left">
@@ -126,6 +131,23 @@
 
 		function editProduct(id){
 			location.replace("bg/productToEdit.do?id="+id+"&tm="+new Date().getTime());
+		}
+
+		function deleteProduct(id){
+			if(confirm("确定要删除？")){
+				$.ajax({
+					url:"<%=basePath%>bg/productDelete.do?id="+id+"&tm="+new Date().getTime(),
+					data: {},
+					type:'post',
+					dataType:'json',
+					success:function(data) {
+						if(data.code == 200){
+							location.reload();
+						}
+					},
+					error : function() {}
+				});
+			}
 		}
 
 

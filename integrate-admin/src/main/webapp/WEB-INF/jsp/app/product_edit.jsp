@@ -101,7 +101,8 @@
 			<tr>
 				<th nowrap="nowrap" style="text-align: right;width: 15%;">兑换积分:</th>
 				<td>
-					<input id="dateTime" type="text" name="integrate" value="${product.integrate}" style="width: 99%;"/>
+					<input id="integrate" type="text" name="integrate" value="${product.integrate}" style="width: 99%;" onkeyup="checkValue('integrate');"/>
+					<div id="integrate-error" style="color: red;font-size: 8px;margin-top: -10px;"></div>
 				</td>
 				<th nowrap="nowrap" style="text-align: right;width: 15%;"></th>
 			</tr>
@@ -185,15 +186,32 @@
 		initialFrameWidth: null,//设置为null即可
 		initialFrameHeight: 500
 	});
-	function saveProduct(){
-		var detail = ue.getContent();
-		$("#detail").val(detail);
-		$("#Form").submit();
-		$("#zhongxin").hide();
-		$("#zhongxin2").show();
+
+
+	function checkValue(id){
+		var value = $("#"+id).val();
+		var regex = /^[0-9]+$/;
+		if(!regex.test(value)){
+			$("#"+id+"-error").html("请输入正确的数值(大于或等于'0'的整数)");
+		}else{
+			$("#"+id+"-error").html("");
+		}
 	}
 
 
+	function saveProduct(){
+		var value = $("#integrate").val();
+		var regex = /^[0-9]+$/;
+		if(regex.test(value)){
+			var detail = ue.getContent();
+			$("#detail").val(detail);
+			$("#Form").submit();
+			$("#zhongxin").hide();
+			$("#zhongxin2").show();
+		}else{
+			$("#error").html("请输入正确的数值(大于或等于'0'的整数)");
+		}
+	}
 
 
 	$(function() {

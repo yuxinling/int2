@@ -53,7 +53,8 @@
 				<tr>
 					<th nowrap="nowrap">兑换积分:</th>
 					<td>
-						<input id="integrate" type="text" name="integrate" style="width:420px;"/>
+						<input id="integrate" type="text" name="integrate" style="width:420px;" onkeyup="checkValue('integrate');"/>
+						<div id="integrate-error" style="color: red;font-size: 8px;margin-top: -10px;"></div>
 					</td>
 				</tr>
 				<tr>
@@ -68,25 +69,44 @@
 	</form>
 	
 	
-		<!-- 引入 -->
-		<!--[if !IE]> -->
-		<script type="text/javascript">
-			window.jQuery || document.write("<script src='static/assets/js/jquery.js'>"+"<"+"/script>");
-		</script>
-		<!-- <![endif]-->
-		<!--[if IE]>
-		<script type="text/javascript">
-		 	window.jQuery || document.write("<script src='static/assets/js/jquery1x.js'>"+"<"+"/script>");
-		</script>
-		<![endif]-->
-		<script type="text/javascript">
-		$(top.hangge());
-		function saveProduct(){
+	<!-- 引入 -->
+	<!--[if !IE]> -->
+	<script type="text/javascript">
+		window.jQuery || document.write("<script src='static/assets/js/jquery.js'>"+"<"+"/script>");
+	</script>
+	<!-- <![endif]-->
+	<!--[if IE]>
+	<script type="text/javascript">
+		window.jQuery || document.write("<script src='static/assets/js/jquery1x.js'>"+"<"+"/script>");
+	</script>
+	<![endif]-->
+
+	<script type="text/javascript">
+	$(top.hangge());
+
+	function checkValue(id){
+		var value = $("#"+id).val();
+		var regex = /^[0-9]+$/;
+		if(!regex.test(value)){
+			$("#"+id+"-error").html("请输入正确的数值(大于或等于'0'的整数)");
+		}else{
+			$("#"+id+"-error").html("");
+		}
+	}
+
+	function saveProduct(){
+
+		var value = $("#integrate").val();
+		if(regex.test(value)){
+
 			$("#Form").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();
+		}else{
+			$("#error").html("请输入正确的数值(大于或等于'0'的整数)");
 		}
-		
-		</script>
+	}
+
+	</script>
 </body>
 </html>

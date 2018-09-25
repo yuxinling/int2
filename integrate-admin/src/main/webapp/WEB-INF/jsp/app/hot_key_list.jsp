@@ -14,11 +14,11 @@
 	<!--查看图片插件 -->
 	<link rel="stylesheet" media="screen" type="text/css" href="plugins/zoomimage/css/zoomimage.css" />
     <link rel="stylesheet" media="screen" type="text/css" href="plugins/zoomimage/css/custom.css" />
-    <script type="text/javascript" src="plugins/zoomimage/js/jquery.js"></script>
+<%--    <script type="text/javascript" src="plugins/zoomimage/js/jquery.js"></script>
     <script type="text/javascript" src="plugins/zoomimage/js/eye.js"></script>
     <script type="text/javascript" src="plugins/zoomimage/js/utils.js"></script>
     <script type="text/javascript" src="plugins/zoomimage/js/zoomimage.js"></script>
-    <script type="text/javascript" src="plugins/zoomimage/js/layout.js"></script>
+    <script type="text/javascript" src="plugins/zoomimage/js/layout.js"></script>--%>
 	<!--查看图片插件 -->
 	</head>
 <body>
@@ -46,7 +46,7 @@
 					<c:when test="${not empty hotKeys}">
 						<c:forEach items="${hotKeys}" var="var" varStatus="vs">
 							<tr>
-								<td class='center' style="width: 20%;">${var.id}</td>
+								<td class='center' style="width: 20%;">${vs.index + 1}</td>
 								<td class='center' style="width: 50%;">${var.keyWord}</td>
 								<td class='center' style="width: 30%;" >
 									<a style="cursor: pointer;" title="编辑" onclick="editHotKey('${var.id}')" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"> <span class="green"><i class="icon-edit"></i></span> </a>
@@ -85,9 +85,9 @@
 		<!-- 引入 -->
 		<script type="text/javascript">window.jQuery || document.write("<script src='static/js/jquery-1.9.1.min.js'>\x3C/script>");</script>
 		<script src="static/js/bootstrap.min.js"></script>
-		<script src="static/js/ace-elements.min.js"></script>
+<%--		<script src="static/js/ace-elements.min.js"></script>
 		<script src="static/js/ace.min.js"></script>
-		<!-- 引入 -->
+		<!-- 引入 -->--%>
 		<script type="text/javascript">
 		
 		$(top.hangge());

@@ -440,6 +440,33 @@ public class AppAdminController extends BaseController {
     }
 
 
+
+    @RequestMapping(value = UrlCommand.product_delete, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public Object deleteProduct(HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("code", 200);
+        result.put("msg", "删除失败！");
+        try {
+            String id = request.getParameter("id");
+            if (StringUtils.isNotBlank(id)) {
+                int count = productService.deleteProduct(Long.valueOf(id));
+                if (count == 1) {
+                    result.put("msg", "删除成功");
+                }
+            }
+
+        } catch (Exception e) {
+            logger.error(e.toString(), e);
+            if (e instanceof BusinessException) {
+                BusinessException be = (BusinessException) e;
+                result.put("msg", be.getMessage());
+            }
+        }
+        return AppUtil.returnObject(new PageData(), result);
+    }
+
+
     @RequestMapping(value = UrlCommand.hot_key)
     public ModelAndView getHotKeys() {
         ModelAndView mv = this.getModelAndView();
@@ -499,7 +526,7 @@ public class AppAdminController extends BaseController {
     }
 
 
-    @RequestMapping(value = UrlCommand.hot_key_goto_delete, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = UrlCommand.hot_key_delete, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public Object deleteHotKey(HttpServletRequest request) {
         Map<String, Object> result = new HashMap<String, Object>();

@@ -27,6 +27,7 @@
 <script type="text/javascript" src="plugins/ueditor/ueditor.config.js"></script>
 <!-- 编辑器源码文件 -->
 <script type="text/javascript" src="plugins/ueditor/ueditor.all.js"></script>
+<script type="text/javascript" src="static/js/bootstrap-datepicker.min.js"></script>
 		
 <script type="text/javascript">
 
@@ -49,26 +50,36 @@
 		<input type="hidden" name="id" id="id" value="${article.id}"/>
 		<div id="zhongxin">
 			<div style="text-align: center;">
-				<span style="font-size: 20px;">添加新闻</span>
+				<c:choose>
+					<c:when test="${not empty article.id}">
+						<span style="font-size: 20px;">动态新闻设置</span>
+					</c:when>
+
+					<c:otherwise>
+						<span style="font-size: 20px;">添加动态新闻</span>
+					</c:otherwise>
+				</c:choose>
 			</div>
 			
 			<table id="table_report" class="table">
 				<tr>
-					<th nowrap="nowrap" style="text-align: right;width: 15%;">标题:</th>
+					<th nowrap="nowrap" style="text-align: right;width: 15%;">新闻标题:</th>
 					<td>
 						<input id="title" type="text" name="title" value="${article.title}" style="width: 99%;"/>
 					</td>
 					<th nowrap="nowrap" style="text-align: right;width: 15%;"></th>
 				</tr>
 				<tr>
-					<th nowrap="nowrap" style="text-align: right;width: 15%;">日期:</th>
+					<th nowrap="nowrap" style="text-align: right;width: 15%;">新闻日期:</th>
 					<td>
-						<input id="dateTime" type="text" name="dateTime" value="${article.dateTime}" style="width: 99%;"/>
+						<input class="date-picker" name="dateTime" id="dateTime" value="${article.dateTime}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly"
+							   style="width: 200px;" placeholder="选择日期" />
+						<%--<input id="dateTime" type="text" name="dateTime" value="${article.dateTime}" style="width: 99%;"/>--%>
 					</td>
 					<th nowrap="nowrap" style="text-align: right;width: 15%;"></th>
 				</tr>
 				<tr>
-					<th nowrap="nowrap" style="text-align: right;width: 15%;">正文:</th>
+					<th nowrap="nowrap" style="text-align: right;width: 15%;">详细:</th>
 					<td >
 						<input type="hidden" name="detail" id="detail" />
 						<script id="container" name="content" type="text/plain" >${article.detail}</script>
@@ -102,6 +113,11 @@
 	<![endif]-->
 	<script type="text/javascript">
 	$(top.hangge());
+	$(function() {
+		//日期框
+		$('.date-picker').datepicker();
+	});
+
 	var ue = UE.getEditor('container', {
 		initialFrameWidth: null,//设置为null即可
 		initialFrameHeight: 500

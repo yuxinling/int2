@@ -124,11 +124,12 @@ public interface UrlCommand {
 	String article_new_delete="bg/articleNewDelete";
 	String product_list = "bg/productList";
 	String product_goto_edit = "bg/productToEdit";
+	String product_delete = "bg/productDelete";
 	String product_edit = "bg/productEdit";
 	String hot_key = "bg/hotKeyList";
 	String hot_key_goto_edit = "bg/hotKeyToEdit";
 	String hot_key_edit = "bg/hotKeyEdit";
-	String hot_key_goto_delete = "bg/hotKeyDelete";
+	String hot_key_delete = "bg/hotKeyDelete";
 
 
 	String user_list ="bg/userList";

@@ -1,0 +1,107 @@
+/*******全局样式********/
+*{margin: 0;padding: 0;}
+body{font-size: 14px;background: #fff;color: #000;font-family:Microsoft YaHei, Helvitica, Verdana, Tohoma, Arial, san-serif;max-width: 768px;margin: 0 auto;}
+ul,li{list-style: none}
+img,input,button{border: 0;font-family: "Microsoft YaHei";outline: none;}
+a{text-decoration: none;outline: none;}
+a:hover{text-decoration: none;outline: none;}
+a:focus{text-decoration: none;outline: none;}
+.padding_none{padding: 0;}
+.padding_left{padding-left: 0;}
+.padding_right{padding-right: 0;}
+.grey_bg{background: #f0eff5;}
+.container{max-width: 768px;}
+.container-fluid{max-width: 768px;}
+.alpha{height: 100%;overflow: hidden;position: relative;}
+.alpha body{height: 100%;overflow: hidden;}
+/**顶部横条**/
+.header{background: #031a77;height: 50px;position: fixed;top:0;z-index: 100;width: 100%;padding:10px 15px;}
+.header img.arrow_left{height: 26px;width: auto;display: block;margin: 2px 0;}
+.header span{width: 100%;height: 30px;font-size: 18px;color: #fff;line-height: 30px;display: block;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+@media(max-width: 375px){
+    .header{height: 44px;}
+    .header img.arrow_left{height: 24px;margin:0;}
+    .header span{height:24px;font-size:17px;line-height:24px;}
+}
+/*******新增下载页面********/
+.down_img{margin-top:40px;}
+.down_img img.down_logo_text{width: auto;height:44px;display: block;}
+.down_img img.down_adv{max-width:80%;height: auto;display: block;margin:30px auto 10px;}
+.down_img img.down_icon{width: 100%;height: auto;display: block;margin-top:50px;}
+@media(max-width: 375px){
+    .down_img{margin-top:30px;}
+    .down_img img.down_logo_text{height:40px;}
+    .down_img img.down_adv{margin:20px auto 10px;}
+    .down_img img.down_icon{margin-top:40px;}
+}
+@media(max-width: 320px){
+    .down_img{margin-top:24px;}
+    .down_img img.down_logo_text{height:36px;}
+    .down_img img.down_adv{margin:20px auto 10px;}
+    .down_img img.down_icon{margin-top:35px;}
+}
+/*******下载分享提示页面********/
+.share_bg{background: #333;}
+.share_img img{max-width: 100%;height: auto;display: block;float: right;}
+/*******主页页面********/
+.body_bg{width: 100%;height: 100%;background: url(../images/bg.jpg) center top  no-repeat; background-size: 100% auto;}
+.register{margin-top: 50px;}
+.register .col-xs-12{padding: 0 30px;}
+.register ul{width: 100%;height: auto;display: block;margin: 0;}
+.register ul li{width: 100%;height: auto;border-bottom: 1px solid #ddd;}
+.register ul li input{width: 100%;height:40px;font-size:15px;color: #333;line-height:40px;display: block;border:0;margin-top: 10px;}
+.register ul li input::-webkit-input-placeholder{color:#ccc;}
+.register ul li input::-moz-placeholder{color:#ccc;}
+.register ul li input:-ms-input-placeholder{color:#ccc;}
+.register ul li input:-moz-placeholder{color:#ccc;}
+.register button{width: 100%;height:54px;background: #f66d1a;border-radius:6px;font-size: 18px;
+    color: #fff;line-height: 54px;margin-top:60px;}
+.register ul li.yzm{position: relative;padding-right: 120px;}
+.register ul li input.button{width:110px;height: 40px;font-size: 14px;color: #f66d1a;background: transparent;text-align: right;
+    position: absolute;z-index: 10;right: 0;top:0;margin-top: 0;}
+._citys { width: 100%; display: inline-block; border: 1px solid #bfbfbf; padding: 5px; position: absolute;background: #ffffff;top:-51px;z-index: 200;left:0;}
+._citys span { color: #91b821; height: 16px; width: 16px; line-height: 16px; text-align: center; border-radius: 2px; position: absolute; right: 10px; top: 10px; border: 1px solid #91b821; cursor: pointer; z-index: 10;}
+._citys0 { width: 100%; height: 30px; display: inline-block; border-bottom: 2px solid #91b821; padding: 0; margin: 0;}
+._citys0 li { display: inline-block; line-height: 30px; font-size: 14px; color: #888; width: 80px; text-align: center; cursor: pointer; }
+.citySel { background-color: #91b821; color: #fff !important; }
+._citys1 { width: 100%; display: inline-block; padding: 10px 0; }
+._citys1 a { width: 25%; height: 36px; display: inline-block; background-color: #f5f5f5; color: #666; line-height: 30px; text-align: center; cursor: pointer; font-size: 12px; overflow: hidden;border:3px solid #ffffff;}
+._citys1 a:hover { color: #fff; background-color: #91b821; text-decoration: none;}
+.AreaS { background-color: #91b821 !important; color: #fff !important; }
+@media(max-width: 375px){
+    .register{margin-top: 40px;}
+    .register .col-xs-12{padding: 0 25px;}
+    .register ul li input{height:36px;font-size:14px;line-height:36px;}
+    .register button{height:50px;border-radius:5px;font-size:17px;line-height: 50px;margin-top:50px;}
+    .register ul li.yzm{padding-right:100px;}
+    .register ul li input.button{width:90px;height:36px;font-size: 13px;}
+}
+@media(max-width: 320px){
+    .register{margin-top: 30px;}
+    .register .col-xs-12{padding: 0 20px;}
+    .register ul li input{height:36px;font-size:13px;line-height:36px;margin-top: 8px;}
+    .register button{height:46px;border-radius:4px;font-size:16px;line-height:46px;margin-top:50px;}
+    .register ul li.yzm{padding-right:100px;}
+    .register ul li input.button{width:90px;height:36px;font-size: 13px;}
+}
+/*******注册成功页面********/
+.register_over{margin-top:70px;}
+.register_over img.register_icon{width: 100px;height: 100px;display: block;margin: 0 auto;}
+.register_over b{width: 100%;height:40px;font-size:20px;color: #333;line-height:40px;text-align: center;display: block;font-weight: normal;}
+.register_over .col-xs-12{padding: 0 30px;}
+.register_over button{width: 100%;height:54px;background: #f66d1a;border-radius:6px;font-size: 18px;
+    color: #fff;line-height: 54px;margin-top:80px;}
+@media(max-width: 375px){
+    .register_over{margin-top:60px;}
+    .register_over img.register_icon{width:90px;height:90px;}
+    .register_over b{height:40px;font-size:18px;line-height:40px;}
+    .register_over .col-xs-12{padding: 0 25px;}
+    .register_over button{height:50px;border-radius:5px;font-size:17px;line-height: 50px;margin-top:50px;}
+}
+@media(max-width: 320px){
+    .register_over{margin-top:50px;}
+    .register_over img.register_icon{width:80px;height:80px;}
+    .register_over b{height:40px;font-size:17px;line-height:40px;}
+    .register_over .col-xs-12{padding: 0 20px;}
+    .register_over button{height:46px;border-radius:4px;font-size:16px;line-height:46px;margin-top:50px;}
+}

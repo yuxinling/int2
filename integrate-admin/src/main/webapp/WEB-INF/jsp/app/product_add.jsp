@@ -97,6 +97,7 @@
 	function saveProduct(){
 
 		var value = $("#integrate").val();
+		var regex = /^[0-9]+$/;
 		if(regex.test(value)){
 
 			$("#Form").submit();

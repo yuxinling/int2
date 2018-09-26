@@ -20,12 +20,12 @@ public class ProductService {
 	@Autowired
 	private ProductDao productDao;
 
-	public List<Map<String,Object>> getProducts() {
-		return productDao.getProducts();
+	public List<Map<String,Object>> getProducts(long lastId, int pageSize) {
+		return productDao.getProducts(lastId,pageSize);
 	}
 	
-	public List<Map<String,Object>> searchProducts(String keyword) {
-		return productDao.getProducts(keyword);
+	public List<Map<String,Object>> searchProducts(String keyword,long lastId, int pageSize) {
+		return productDao.getProducts(keyword,lastId,pageSize);
 	}
 	
 	public Product getProduct(Long id) {

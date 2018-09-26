@@ -1,6 +1,7 @@
 package com.integrate.web.controller;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,35 +24,62 @@ import com.integrate.web.service.ProductService;
 
 @Controller
 public class ProductController {
-	
-	
-	@Autowired
-	private ProductService productService;
 
-	@RequestMapping(value = UrlCommand.product, method = RequestMethod.GET)
-	@ResponseBody
-	public void getProducts(HttpServletRequest request, HttpServletResponse response){
-		List<Map<String,Object>> products = productService.getProducts();
-		Message.writeMsg(response, SysMsgEnumType.SUCCESS, products);
-	}
-	
-	@RequestMapping(value = UrlCommand.product_search, method = RequestMethod.GET)
-	@ResponseBody
-	public void searchProducts(HttpServletRequest request, HttpServletResponse response){
 
-		String keyword = StringUtil.getString(request.getParameter("kw"));
-		if(StringUtils.isBlank(keyword)){
-			Message.writeError(response, SysMsgEnumType.SEARCH_FAIL);
-		}
-		List<Map<String,Object>> products = productService.searchProducts(keyword);
-		Message.writeMsg(response, SysMsgEnumType.SUCCESS, products);
-	}
-	
-	@RequestMapping(value = UrlCommand.product_detail, method = RequestMethod.GET)
-	@ResponseBody
-	public void getProduct(HttpServletRequest request, HttpServletResponse response,@PathVariable("id") Long id){
-		Product product = productService.getProduct(id);
-		Message.writeMsg(response, SysMsgEnumType.SUCCESS, product);
-	}
+    @Autowired
+    private ProductService productService;
+
+    @RequestMapping(value = UrlCommand.product, method = RequestMethod.GET)
+    @ResponseBody
+    public void getProducts(HttpServletRequest request, HttpServletResponse response) {
+        String lastId = StringUtil.getString(request.getParameter("lastId"));
+        String pageSize = StringUtil.getString(request.getParameter("pageSize"));
+        if (!StringUtils.isNumeric(pageSize)) {
+            Message.writeError(response, SysMsgEnumType.PARAM_LACK);
+            return;
+        }
+        if (StringUtils.isBlank(lastId)) {
+            lastId = "0";
+        }
+        if (StringUtils.isNotBlank(lastId) && !StringUtils.isNumeric(lastId)) {
+            Message.writeError(response, SysMsgEnumType.PARAM_LACK);
+            return;
+        }
+
+        List<Map<String, Object>> products = productService.getProducts(Long.parseLong(lastId), Integer.valueOf(pageSize));
+        Message.writeMsg(response, SysMsgEnumType.SUCCESS, products);
+    }
+
+    @RequestMapping(value = UrlCommand.product_search, method = RequestMethod.GET)
+    @ResponseBody
+    public void searchProducts(HttpServletRequest request, HttpServletResponse response) {
+
+        String keyword = StringUtil.getString(request.getParameter("kw"));
+        String lastId = StringUtil.getString(request.getParameter("lastId"));
+        String pageSize = StringUtil.getString(request.getParameter("pageSize"));
+        if (!StringUtils.isNumeric(pageSize)) {
+            Message.writeError(response, SysMsgEnumType.PARAM_LACK);
+            return;
+        }
+        if (StringUtils.isBlank(lastId)) {
+            lastId = "0";
+        }
+        if (StringUtils.isNotBlank(lastId) && !StringUtils.isNumeric(lastId)) {
+            Message.writeError(response, SysMsgEnumType.PARAM_LACK);
+            return;
+        }
+        if (StringUtils.isBlank(keyword)) {
+            Message.writeError(response, SysMsgEnumType.SEARCH_FAIL);
+        }
+        List<Map<String, Object>> products = productService.searchProducts(keyword, Long.valueOf(lastId), Integer.valueOf(pageSize));
+        Message.writeMsg(response, SysMsgEnumType.SUCCESS, products);
+    }
+
+    @RequestMapping(value = UrlCommand.product_detail, method = RequestMethod.GET)
+    @ResponseBody
+    public void getProduct(HttpServletRequest request, HttpServletResponse response, @PathVariable("id") Long id) {
+        Product product = productService.getProduct(id);
+        Message.writeMsg(response, SysMsgEnumType.SUCCESS, product);
+    }
 
 }

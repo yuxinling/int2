@@ -52,17 +52,27 @@ public class ProductDao {
 		}
 	};
 	
-	public List<Map<String,Object>> getProducts(){
-		String sql="select id,name,thumbnail,integrate from t_product order by sort asc" ;
-		return jdbc.queryForList(sql,new Object[]{});
+	public List<Map<String,Object>> getProducts(long lastId, int pageSize){
+		String sql="select id,name,thumbnail,integrate from t_product" ;
+
+		if (lastId > 0) {
+			sql += " where id > " + lastId;
+		}
+		sql += " order by id asc,sort asc limit ?";
+		return jdbc.queryForList(sql,new Object[]{pageSize});
 	}
 	
-	public List<Map<String,Object>> getProducts(String keyword){
+	public List<Map<String,Object>> getProducts(String keyword,long lastId, int pageSize){
 		if(StringUtils.isNotBlank(keyword)){
 			keyword = "%"+keyword+"%";
 		}
-		String sql="select id,name,thumbnail,integrate from t_product where name like ? order by sort asc" ;
-		return jdbc.queryForList(sql,new Object[]{keyword});
+		String sql="select id,name,thumbnail,integrate from t_product where name like ?" ;
+
+		if (lastId > 0) {
+			sql += " and id > " + lastId;
+		}
+		sql += " order by id asc,sort asc limit ?";
+		return jdbc.queryForList(sql,new Object[]{keyword,pageSize});
 	}
 	
 	public Product getProduct(Long id){

@@ -85,6 +85,7 @@
 			<mvc:exclude-mapping path="/plugins/**" />
 			<mvc:exclude-mapping path="/static/**" />
 			<mvc:exclude-mapping path="/favicon.ico" />
+			<mvc:exclude-mapping path="/uploadFiles/**" />
 			<bean class="com.integrate.admin.interceptor.LoginHandlerInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>

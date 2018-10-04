@@ -162,6 +162,10 @@ public class UserController {
 			Message.writeError(response, SysMsgEnumType.PARAM_LACK);
 			return;
 		}
+
+		if(cityCode == 0 && areaCode != 0 && String.valueOf(areaCode).length() == 6){
+			cityCode = Integer.valueOf(String.valueOf(areaCode).substring(0, 4) + "00");
+		}
 		User user = userService.registerUserByMobile(mobile, nickname, regCode, cityCode, areaCode, loginPwd, tradePwd,
 				recommendPerson);
 		Message.writeMsg(response, SysMsgEnumType.SUCCESS, user);

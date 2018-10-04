@@ -57,7 +57,7 @@
 											</c:when>
 										</c:choose>
 
-										<section class="aui-file-up fl" <c:if test="${fn:length(images)>=5}" > style="display: none" </c:if> >
+										<section class="aui-file-up fl" <c:if test="${fn:length(images)>=20}" > style="display: none" </c:if> >
 											<img src="plugins/imguploadify/up.png" class="add-img">
 											<input type="file" name="imageUp" id="imageUp" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple="">
 										</section>
@@ -88,7 +88,7 @@
 	<!-- mask end -->
 
 	<script type="text/javascript">
-		var imageCount = 5;
+		var imageCount = 20;
 
 		$(top.hangge());
 

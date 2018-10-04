@@ -25,18 +25,17 @@ public class FileUpload {
 			if (file.getOriginalFilename().lastIndexOf(".") >= 0){
 				extName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 			}
-			copyFile(file.getInputStream(), filePath, fileName+extName).replaceAll("-", "");
+			copyFile(file.getInputStream(), filePath, fileName).replaceAll("-", "");
 		} catch (IOException e) {
 			System.out.println(e);
 		}
-		return fileName+extName;
+		return fileName;
 	}
 	
 	/**
 	 * 写文件到当前目录的upload目录中
 	 * 
 	 * @param in
-	 * @param fileName
 	 * @throws IOException
 	 */
 	private static String copyFile(InputStream in, String dir, String realName)

@@ -380,7 +380,7 @@
 	function deleteImageThumbnail(delParent){
 		$(".aui-works-mask").hide();
 		$.ajax({
-			url:"<%=basePath%>bg/images/thumbnailDelete.do?rid=2&tm="+new Date().getTime(),
+			url:"<%=basePath%>bg/images/thumbnailDelete.do?id="+$("#id").val()+"&tm="+new Date().getTime(),
 			data: {},
 			type:'post',
 			dataType:'json',

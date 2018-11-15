@@ -1,9 +1,7 @@
 package com.integrate.admin.controller.app;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -126,12 +124,13 @@ public class AppAdminController extends BaseController {
             Image image = new Image();
             if (file != null) {
                 CommonsMultipartFile cf = (CommonsMultipartFile) file;
-                DiskFileItem fi = (DiskFileItem) cf.getFileItem();
-                File f = fi.getStoreLocation();
+//                DiskFileItem fi = (DiskFileItem) cf.getFileItem();
+//                File f = fi.getStoreLocation();
 
                 //String filePath = PathUtil.getClasspath() + Const.FILEPATHIMG;								//文件上传路径
                 String filePath = request.getSession().getServletContext().getRealPath("/") + "/" + Const.FILEPATHIMG;                                //文件上传路径
-                String fileName = FileUpload.fileUp(file, filePath, fi.getName());
+//                String fileName = FileUpload.fileUp(file, filePath, fi.getName());
+                String fileName = FileUpload.fileUp(file, filePath, UUID.randomUUID().toString());
 
 
                 String url = new StringBuilder("http://")
@@ -153,7 +152,7 @@ public class AppAdminController extends BaseController {
                 rid = "0";
             }
             image.setRid(Long.valueOf(rid));
-            if(StringUtils.isNotBlank(image.getSrc())){
+            if (StringUtils.isNotBlank(image.getSrc())) {
                 imageService.insertImage(image);
             }
             List<Image> images = imageService.getImages(0L);
@@ -165,6 +164,7 @@ public class AppAdminController extends BaseController {
         return mv;
 
     }
+
     @RequestMapping(value = UrlCommand.image_thumbnail_upload, produces = "application/json;charset=UTF-8")
     public Object uploadImageThumbnail(HttpServletRequest request, @RequestParam(value = "image", required = false) MultipartFile file) {
 
@@ -173,14 +173,15 @@ public class AppAdminController extends BaseController {
         try {
             if (file != null && StringUtils.isNotBlank(rid)) {
                 Product product = productService.getProduct(Long.valueOf(rid));
-                if(product != null ){
+                if (product != null) {
                     CommonsMultipartFile cf = (CommonsMultipartFile) file;
-                    DiskFileItem fi = (DiskFileItem) cf.getFileItem();
-                    File f = fi.getStoreLocation();
+//                    DiskFileItem fi = (DiskFileItem) cf.getFileItem();
+//                    File f = fi.getStoreLocation();
 
                     //String filePath = PathUtil.getClasspath() + Const.FILEPATHIMG;								//文件上传路径
                     String filePath = request.getSession().getServletContext().getRealPath("/") + "/" + Const.FILEPATHIMG;                                //文件上传路径
-                    String fileName = FileUpload.fileUp(file, filePath, fi.getName());
+//                    String fileName = FileUpload.fileUp(file, filePath, fi.getName());
+                    String fileName = FileUpload.fileUp(file, filePath, UUID.randomUUID().toString());
 
 
                     String url = new StringBuilder("http://")
@@ -213,14 +214,14 @@ public class AppAdminController extends BaseController {
     @ResponseBody
     public Object deleteImageThumbnail(HttpServletRequest request) {
 
-        String rid = request.getParameter("rid");
+        String id = request.getParameter("id");
 
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("code", 200);
         result.put("msg", "删除失败！");
         try {
-            if (StringUtils.isNotBlank(rid)) {
-                Product product = productService.getProduct(Long.valueOf(rid));
+            if (StringUtils.isNotBlank(id)) {
+                Product product = productService.getProduct(Long.valueOf(id));
                 if (product != null) {
 
                     product.setThumbnail(null);
@@ -402,7 +403,7 @@ public class AppAdminController extends BaseController {
                 Product product = productService.getProduct(Long.valueOf(id));
                 mv.addObject("product", product);
                 mv.setViewName("app/product_edit");
-            }else{
+            } else {
                 mv.setViewName("app/product_add");
             }
         } catch (Exception e) {
@@ -412,7 +413,7 @@ public class AppAdminController extends BaseController {
     }
 
     @RequestMapping(value = UrlCommand.product_edit)
-    public ModelAndView updateProduct(HttpServletRequest request,@ModelAttribute Product product) {
+    public ModelAndView updateProduct(HttpServletRequest request, @ModelAttribute Product product) {
         ModelAndView mv = this.getModelAndView();
         try {
             String id = request.getParameter("id");
@@ -425,7 +426,7 @@ public class AppAdminController extends BaseController {
                 mv.addObject("products", products);
                 mv.setViewName("app/product_list");
 
-            }else {
+            } else {
 
                 product.setCreateTime(System.currentTimeMillis());
                 product.setUpdateTime(product.getCreateTime());
@@ -438,7 +439,6 @@ public class AppAdminController extends BaseController {
         }
         return mv;
     }
-
 
 
     @RequestMapping(value = UrlCommand.product_delete, produces = "application/json;charset=UTF-8")

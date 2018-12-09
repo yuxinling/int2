@@ -41,6 +41,7 @@
 						<th  class="center" >名称</th>
 						<th  class="center" >兑换积分</th>
 						<th  class="center" >上架时间</th>
+						<th  class="center" >分类</th>
 						<th class="center">操作</th>
 					</tr>
 				</thead>
@@ -50,14 +51,18 @@
 					<c:when test="${not empty products}">
 						<c:forEach items="${products}" var="var" varStatus="vs">
 							<tr>
-								<td class="center" class='center' style="width: 15%;">${vs.index + 1}</td>
+								<td class="center" style="width: 15%;">${vs.index + 1}</td>
 								<td class="center" style="width: 30%;" >${var.name}</td>
 								<td class="center" style="width: 15%;" >${var.integrate}</td>
-								<td class="center" style="width: 20%;" >
+								<td class="center" style="width: 15%;" >
 									<jsp:setProperty name="dateValue" property="time" value="${var.createTime}"/>
 									<fmt:formatDate value="${dateValue}" pattern="yyyy-MM-dd HH:mm:ss"/>
 								</td>
-								<td class="center" style="width: 20%;" >
+								<td class="center" style="width: 15%;" >
+                                    ${var.category.categoryName}
+								</td>
+
+								<td class="center" style="width: 10%;" >
 									<a style="cursor: pointer;" title="编辑" onclick="editProduct('${var.id}')"
 									   class="tooltip-success" data-rel="tooltip" title="" data-placement="left">
 										<span class="green"><i class="icon-edit"></i></span>

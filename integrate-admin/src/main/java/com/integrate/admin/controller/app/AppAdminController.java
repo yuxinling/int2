@@ -1,13 +1,16 @@
 package com.integrate.admin.controller.app;
 
-import java.io.File;
-import java.util.*;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.integrate.admin.controller.base.BaseController;
+import com.integrate.admin.module.app.model.AppInfo;
 import com.integrate.admin.module.app.service.*;
-import com.integrate.model.HotKey;
-import org.apache.commons.fileupload.disk.DiskFileItem;
+import com.integrate.admin.util.AppUtil;
+import com.integrate.admin.util.Const;
+import com.integrate.admin.util.FileUpload;
+import com.integrate.admin.util.PageData;
+import com.integrate.core.qiniu.QiniuService;
+import com.integrate.exception.BusinessException;
+import com.integrate.model.*;
+import com.integrate.url.UrlCommand;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,21 +22,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.integrate.admin.controller.base.BaseController;
-import com.integrate.admin.entity.system.Menu;
-import com.integrate.admin.module.app.model.AppInfo;
-import com.integrate.admin.util.AppUtil;
-import com.integrate.admin.util.Const;
-import com.integrate.admin.util.FileUpload;
-import com.integrate.admin.util.PageData;
-import com.integrate.admin.util.PathUtil;
-import com.integrate.core.qiniu.QiniuService;
-import com.integrate.enums.QiniuBucket;
-import com.integrate.exception.BusinessException;
-import com.integrate.model.Article;
-import com.integrate.model.Image;
-import com.integrate.model.Product;
-import com.integrate.url.UrlCommand;
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Controller
 public class AppAdminController extends BaseController {
@@ -48,6 +41,10 @@ public class AppAdminController extends BaseController {
     private ArticleService articleService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private CategoryService categoryService;
+    @Autowired
+    private CouponService couponService;
     @Autowired
     private HotKeyService hotKeyService;
 
@@ -83,15 +80,28 @@ public class AppAdminController extends BaseController {
         String version = request.getParameter("version");
         String url = null;
         if (file != null) {
-            CommonsMultipartFile cf = (CommonsMultipartFile) file;
+            /*CommonsMultipartFile cf = (CommonsMultipartFile) file;
             DiskFileItem fi = (DiskFileItem) cf.getFileItem();
             File f = fi.getStoreLocation();
             String resourceKey = qiniuService.uploadFile(f, QiniuBucket.HEAD_IMG.getBucket());
             String title = file.getOriginalFilename();
             if (resourceKey != null) {
                 url = QiniuBucket.HEAD_IMG.getDomain() + resourceKey + "?v=1" + "&attname=" + title;
-            }
+            }*/
 
+            String filePath = request.getSession().getServletContext().getRealPath("/") + "/" + Const.FILE_PATHF_APP;                                //文件上传路径
+            String fileName = new StringBuffer("yimencheng.v").append(version).toString();
+            fileName = FileUpload.fileUp(file, filePath, fileName);
+
+            url = new StringBuilder("http://")
+                    .append(request.getServerName())
+                    .append(":")
+                    .append(request.getServerPort())
+                    .append(request.getContextPath())
+                    .append("/")
+                    .append(Const.FILE_PATHF_APP)
+                    .append(fileName)
+                    .toString();
         }
 
         appService.update(url, version);
@@ -406,6 +416,8 @@ public class AppAdminController extends BaseController {
             } else {
                 mv.setViewName("app/product_add");
             }
+            List<Category> categorys = categoryService.getCategorys();
+            mv.addObject("categorys", categorys);
         } catch (Exception e) {
             logger.error(e.toString(), e);
         }
@@ -550,4 +562,166 @@ public class AppAdminController extends BaseController {
         }
         return AppUtil.returnObject(new PageData(), result);
     }
+
+    @RequestMapping(value = UrlCommand.category_list)
+    public ModelAndView getCategories(HttpServletRequest request) {
+        ModelAndView mv = this.getModelAndView();
+        try {
+            List<Category> categorys = categoryService.getCategorys();
+            mv.addObject("categorys", categorys);
+            mv.setViewName("app/category_list");
+        } catch (Exception e) {
+            logger.error(e.toString(), e);
+        }
+
+        return mv;
+    }
+
+    @RequestMapping(value = UrlCommand.category_goto_edit)
+    public ModelAndView editCategory(HttpServletRequest request) {
+        ModelAndView mv = this.getModelAndView();
+        try {
+            String id = request.getParameter("id");
+            if (StringUtils.isNotBlank(id)) {
+                Category category = categoryService.getCategory(Long.valueOf(id));
+                mv.addObject("category", category);
+            }
+            mv.setViewName("app/category_edit");
+        } catch (Exception e) {
+            logger.error(e.toString(), e);
+        }
+        return mv;
+    }
+
+
+    @RequestMapping(value = UrlCommand.category_edit)
+    public ModelAndView updateCategory(HttpServletRequest request) {
+        try {
+            String id = request.getParameter("id");
+            String categoryName = request.getParameter("categoryName");
+            if (StringUtils.isNotBlank(categoryName)) {
+                long now = System.currentTimeMillis();
+                Category category = new Category();
+                category.setCategoryName(categoryName);
+                category.setUpdateTime(now);
+
+                if (StringUtils.isBlank(id)) {
+                    category.setCreateTime(now);
+                    categoryService.insertCategory(category);
+                } else {
+                    category.setId(Long.valueOf(id));
+                    categoryService.updateCategory(category);
+                }
+            }
+        } catch (Exception e) {
+            logger.error(e.toString(), e);
+        }
+        ModelAndView mv = this.getModelAndView();
+        mv.addObject("msg", "success");
+        mv.setViewName("save_result");
+        return mv;
+    }
+
+
+    @RequestMapping(value = UrlCommand.category_delete, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public Object deleteCategory(HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("code", 200);
+        result.put("msg", "删除失败！");
+        try {
+            String id = request.getParameter("id");
+            if (StringUtils.isNotBlank(id)) {
+                int count = categoryService.deleteCategory(Long.valueOf(id));
+                if (count == 1) {
+                    result.put("msg", "删除成功");
+                }
+            }
+
+        } catch (Exception e) {
+            logger.error(e.toString(), e);
+            if (e instanceof BusinessException) {
+                BusinessException be = (BusinessException) e;
+                result.put("msg", be.getMessage());
+            }
+        }
+        return AppUtil.returnObject(new PageData(), result);
+    }
+
+
+    @RequestMapping(value = UrlCommand.mobile_coupon_list)
+    public ModelAndView getMobileCoupons(HttpServletRequest request) {
+        ModelAndView mv = this.getModelAndView();
+        try {
+            List<Coupon> coupons = couponService.getCoupons();
+            mv.addObject("coupons", coupons);
+            mv.setViewName("app/coupon_list");
+        } catch (Exception e) {
+            logger.error(e.toString(), e);
+        }
+
+        return mv;
+    }
+
+    @RequestMapping(value = UrlCommand.mobile_coupon_goto_edit)
+    public ModelAndView editMobileCoupon(HttpServletRequest request) {
+        ModelAndView mv = this.getModelAndView();
+        try {
+            String id = request.getParameter("id");
+            if (StringUtils.isNotBlank(id)) {
+                Coupon coupon = couponService.getCoupon(Long.valueOf(id));
+                mv.addObject("coupon", coupon);
+            }
+            mv.setViewName("app/coupon_edit");
+        } catch (Exception e) {
+            logger.error(e.toString(), e);
+        }
+        return mv;
+    }
+
+
+    @RequestMapping(value = UrlCommand.mobile_coupon_edit)
+    public ModelAndView updateMobileCoupon(HttpServletRequest request, @ModelAttribute Coupon coupon) {
+        try {
+            String id = request.getParameter("id");
+            coupon.setType(1);
+            if (StringUtils.isBlank(id)) {
+                couponService.insertCoupon(coupon);
+            } else {
+                couponService.updateCoupon(coupon);
+            }
+        } catch (Exception e) {
+            logger.error(e.toString(), e);
+        }
+        ModelAndView mv = this.getModelAndView();
+        mv.addObject("msg", "success");
+        mv.setViewName("save_result");
+        return mv;
+    }
+
+
+    @RequestMapping(value = UrlCommand.category_delete, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public Object deleteMobileCoupon(HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("code", 200);
+        result.put("msg", "删除失败！");
+        try {
+            String id = request.getParameter("id");
+            if (StringUtils.isNotBlank(id)) {
+                int count = couponService.deleteCoupon(Long.valueOf(id));
+                if (count == 1) {
+                    result.put("msg", "删除成功");
+                }
+            }
+        } catch (Exception e) {
+            logger.error(e.toString(), e);
+            if (e instanceof BusinessException) {
+                BusinessException be = (BusinessException) e;
+                result.put("msg", be.getMessage());
+            }
+        }
+        return AppUtil.returnObject(new PageData(), result);
+    }
+
 }

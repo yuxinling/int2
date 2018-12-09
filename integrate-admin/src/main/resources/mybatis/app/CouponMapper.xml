@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="CouponMapper">
+	<resultMap id="CouponResult" type="com.integrate.model.Coupon">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="money" property="money" jdbcType="INTEGER" />
+		<result column="integrate" property="integrate" jdbcType="INTEGER" />
+		<result column="remain" property="remain" jdbcType="INTEGER" />
+		<result column="usable" property="usable" jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<insert id="insertCoupon" parameterType="com.integrate.model.Coupon" useGeneratedKeys="true"  keyProperty="id" keyColumn="id">
+		INSERT INTO t_coupon (
+			money,
+			integrate,
+			remain,
+			usable,
+			type
+		) VALUES (
+			#{money},
+			#{integrate},
+			#{remain},
+			#{usable},
+			#{type}
+		)
+	</insert>
+	
+	<update id="updateCoupon" parameterType="com.integrate.model.Coupon">
+		UPDATE t_coupon set
+			money = #{money},
+			integrate = #{integrate},
+			remain = #{remain},
+			usable = #{usable},
+			type = #{type}
+		where
+			id = #{id}
+	</update>
+	
+	<delete id="deleteCoupon" parameterType="Long">
+		DELETE FROM t_coupon WHERE id = #{id};
+	</delete>
+	
+	<select id="getCoupons" resultMap="CouponResult" parameterType="int">
+		SELECT id, money, integrate, remain, usable, type
+		FROM t_coupon where type = #{type}
+	</select>
+
+	<select id="getCoupon" resultMap="CouponResult" parameterType="Long">
+		SELECT id, money, integrate, remain, usable, type
+		FROM t_coupon
+		WHERE id = #{id}
+	</select>
+</mapper>

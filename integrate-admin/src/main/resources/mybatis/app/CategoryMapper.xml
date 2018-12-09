@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="CategoryMapper">
+	<resultMap id="CategoryResult" type="com.integrate.model.Category">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+		<result column="sort" property="sort" jdbcType="INTEGER" />
+		<result column="usable" property="usable" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="BIGINT" />
+		<result column="update_time" property="updateTime" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<insert id="insertCategory" parameterType="com.integrate.model.Category" useGeneratedKeys="true"  keyProperty="id" keyColumn="id">
+		INSERT INTO t_category (
+			category_name,
+			sort,
+			usable,
+			create_time,
+			update_time
+		) VALUES (
+			#{categoryName},
+			#{sort},
+			#{usable},
+			#{createTime},
+			#{updateTime}
+		)
+	</insert>
+	
+	<update id="updateCategory" parameterType="com.integrate.model.Category">
+		UPDATE t_category set
+			category_name = #{categoryName},
+			sort = #{sort},
+			usable = #{usable},
+			update_time = #{updateTime}
+		where 
+			id = #{id}
+	</update>
+	
+	<delete id="deleteCategory" parameterType="Long">
+		DELETE FROM t_category WHERE id = #{id};
+	</delete>
+	
+	<select id="getCategorys" resultMap="CategoryResult">
+		SELECT id, category_name, sort, usable, create_time, update_time
+		FROM t_category
+	</select>
+	
+	<select id="getCategory" resultMap="CategoryResult" parameterType="Long">
+		SELECT id, category_name, sort, usable, create_time, update_time
+		FROM t_category
+		WHERE id = #{id}
+	</select>
+</mapper>

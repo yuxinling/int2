@@ -14,7 +14,7 @@ public class AppDao {
 	private AppDbService jdbc;
 	
 	public Map<String, Object> getVersion(){
-		String sql="SELECT version FROM t_app_version LIMIT 1  " ;
+		String sql="SELECT version,url,time FROM t_app_version LIMIT 1  " ;
 		return jdbc.queryForMap(sql);
 	}
 }

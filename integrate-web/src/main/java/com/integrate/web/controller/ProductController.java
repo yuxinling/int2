@@ -24,16 +24,16 @@ import com.integrate.web.service.ProductService;
 
 @Controller
 public class ProductController {
-
-
     @Autowired
     private ProductService productService;
 
-    @RequestMapping(value = UrlCommand.product, method = RequestMethod.GET)
     @ResponseBody
+    @RequestMapping(value = UrlCommand.product, method = RequestMethod.GET)
     public void getProducts(HttpServletRequest request, HttpServletResponse response) {
         String lastId = StringUtil.getString(request.getParameter("lastId"));
         String pageSize = StringUtil.getString(request.getParameter("pageSize"));
+        String categoryId = StringUtil.getString(request.getParameter("categoryId"));
+        if (StringUtils.isBlank(pageSize)) pageSize = "20";
         if (!StringUtils.isNumeric(pageSize)) {
             Message.writeError(response, SysMsgEnumType.PARAM_LACK);
             return;
@@ -41,22 +41,26 @@ public class ProductController {
         if (StringUtils.isBlank(lastId)) {
             lastId = "0";
         }
+        if (StringUtils.isBlank(categoryId)) {
+            categoryId = "0";
+        }
         if (StringUtils.isNotBlank(lastId) && !StringUtils.isNumeric(lastId)) {
             Message.writeError(response, SysMsgEnumType.PARAM_LACK);
             return;
         }
 
-        List<Map<String, Object>> products = productService.getProducts(Long.parseLong(lastId), Integer.valueOf(pageSize));
+        List<Map<String, Object>> products = productService.getProducts(Long.parseLong(categoryId), Long.parseLong(lastId), Integer.valueOf(pageSize));
         Message.writeMsg(response, SysMsgEnumType.SUCCESS, products);
     }
 
-    @RequestMapping(value = UrlCommand.product_search, method = RequestMethod.GET)
     @ResponseBody
+    @RequestMapping(value = UrlCommand.product_search, method = RequestMethod.GET)
     public void searchProducts(HttpServletRequest request, HttpServletResponse response) {
 
         String keyword = StringUtil.getString(request.getParameter("kw"));
         String lastId = StringUtil.getString(request.getParameter("lastId"));
         String pageSize = StringUtil.getString(request.getParameter("pageSize"));
+        if (StringUtils.isBlank(pageSize)) pageSize = "20";
         if (!StringUtils.isNumeric(pageSize)) {
             Message.writeError(response, SysMsgEnumType.PARAM_LACK);
             return;
@@ -75,8 +79,8 @@ public class ProductController {
         Message.writeMsg(response, SysMsgEnumType.SUCCESS, products);
     }
 
-    @RequestMapping(value = UrlCommand.product_detail, method = RequestMethod.GET)
     @ResponseBody
+    @RequestMapping(value = UrlCommand.product_detail, method = RequestMethod.GET)
     public void getProduct(HttpServletRequest request, HttpServletResponse response, @PathVariable("id") Long id) {
         Product product = productService.getProduct(id);
         Message.writeMsg(response, SysMsgEnumType.SUCCESS, product);

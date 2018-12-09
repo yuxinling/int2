@@ -1,7 +1,11 @@
 package com.integrate.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Product {
 	
 	private long id;
@@ -9,11 +13,12 @@ public class Product {
 	private int integrate;
 	private String thumbnail;
 	private String detail;
+	@JsonIgnore
 	private int sort;
-	
     private Long createTime;
     private Long updateTime;
-    
+
+    private Category category;
     private List<Image> images;
 	
 	public long getId() {
@@ -70,6 +75,10 @@ public class Product {
 	public void setImages(List<Image> images) {
 		this.images = images;
 	}
-	
-	
+	public Category getCategory() {
+		return category;
+	}
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 }

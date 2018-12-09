@@ -10,10 +10,16 @@
 		<result column="sort" property="sort" jdbcType="INTEGER" />
 		<result column="create_time" property="createTime" jdbcType="BIGINT" />
 		<result column="update_time" property="updateTime" jdbcType="BIGINT" />
+<!--		<association property="category" javaType="com.integrate.model.Category">
+			<id property="id" column="category_id"/>
+			<result property="categoryName" column="category_name"/>
+		</association>-->
+		<association property="category" column="category_id" select="CategoryMapper.getCategory"/>
 	</resultMap>
-	
+
 	<insert id="insertProduct" parameterType="com.integrate.model.Product" useGeneratedKeys="true"  keyProperty="id" keyColumn="id">
 		INSERT INTO t_product (
+			category_id,
 			name, 
 			integrate, 
 			thumbnail, 
@@ -22,7 +28,8 @@
 			create_time, 
 			update_time
 		) VALUES (
-			#{name}, 
+			#{category.id},
+			#{name},
 			#{integrate},
 			#{thumbnail},
 			#{detail},
@@ -34,6 +41,7 @@
 	
 	<update id="updateProduct" parameterType="com.integrate.model.Product">
 		UPDATE t_product set 
+			category_id = #{category.id},
 			name = #{name},
 			integrate = #{integrate},
 			thumbnail = #{thumbnail},
@@ -49,12 +57,12 @@
 	</delete>
 	
 	<select id="getProducts" resultMap="ProductResult">
-		SELECT id, name, integrate, thumbnail, detail, sort, create_time, update_time
+		SELECT id, category_id, name, integrate, thumbnail, detail, sort, create_time, update_time
 		FROM t_product
 	</select>
 	
 	<select id="getProduct" resultMap="ProductResult" parameterType="Long">
-		SELECT id, name, integrate, thumbnail, detail, sort, create_time, update_time
+		SELECT id, category_id, name, integrate, thumbnail, detail, sort, create_time, update_time
 		FROM t_product
 		WHERE id = #{id}
 	</select>

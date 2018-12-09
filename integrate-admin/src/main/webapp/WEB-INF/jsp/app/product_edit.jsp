@@ -70,6 +70,21 @@
 				<th nowrap="nowrap" style="text-align: right;width: 15%;"></th>
 			</tr>
 			<tr>
+				<th nowrap="nowrap" style="text-align: right;width: 15%;">商品分类:</th>
+				<td>
+                    <select id="category.id" name="category.id" style="width:270px;">
+                    <c:choose>
+                        <c:when test="${not empty categorys}">
+                            <c:forEach items="${categorys}" var="var" varStatus="vs">
+                                <option value="${var.id}"  <c:if test="${var.id eq product.category.id}">selected </c:if>  >${var.categoryName}</option>
+                            </c:forEach>
+                        </c:when>
+                    </c:choose>
+                    </select>
+				</td>
+				<th nowrap="nowrap" style="text-align: right;width: 15%;"></th>
+			</tr>
+			<tr>
 				<th nowrap="nowrap" style="text-align: right;width: 15%;">列表图片:</th>
 				<td>
 					<div class="aui-form-group clear">

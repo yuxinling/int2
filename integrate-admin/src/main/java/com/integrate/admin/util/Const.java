@@ -13,6 +13,7 @@ public class Const {
 	public static final String LOGIN = "/login_toLogin.do";				//登录地址
 	public static final String FILEPATHIMG = "uploadFiles/uploadImgs/";	//图片上传路径
 	public static final String FILEPATHFILE = "uploadFiles/file/";		//文件上传路径
+	public static final String FILE_PATHF_APP = "uploadFiles/app/";		//文件上传路径
 	public static final String NO_INTERCEPTOR_PATH = ".*/((login)|(logout)|(code)|(app)|(weixin)|(static)|(main)|(websocket)).*";	//不对匹配该值的访问路径拦截（正则）
 	
 	/**

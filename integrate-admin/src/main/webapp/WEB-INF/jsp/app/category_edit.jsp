@@ -23,39 +23,28 @@
 
 		<script type="text/javascript" src="static/js/jquery-1.7.2.js"></script>
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
-		<script type="text/javascript" src="plugins/ueditor/ueditor.config.js"></script>
-    	<!-- 编辑器源码文件 -->
-    	<script type="text/javascript" src="plugins/ueditor/ueditor.all.js"></script>
-		
 <script type="text/javascript">
 
 </script>
 	</head>
 <body>
-	<form action="bg/articleNewEdit.do" name="Form" id="Form" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="id" id="id" value="${article.id}"/>
-		<input type="hidden" name="detail" id="detail" />
+	<form action="bg/categoryEdit.do" name="Form" id="Form" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="id" id="id" value="${category.id}"/>
 		<div id="zhongxin">
-			<div style="text-align: center;">
-				<span style="font-size: 20px;">添加新闻</span>
+			<div style="text-align: center;padding: 20px;">
+				<span style="font-size: 20px;">添加分类</span>
 			</div>
 			
-			<table id="table_report" class="table table-bordered" width="90%">
+			<table id="table_report" class="table table-striped table-bordered table-hover">
 				<tr>
-					<th nowrap="nowrap">标题:</th>
+					<th nowrap="nowrap">关键字:</th>
 					<td>
-						<input id="title" type="text" name="title" value="${article.title}" style="width:100%;"/>
-					</td>
-				</tr>
-				<tr>
-					<th nowrap="nowrap">正文:</th>
-					<td>
-						<script id="container" name="content" type="text/plain" style="width:100%">${article.detail}</script>
+						<input id="categoryName" type="text" name="categoryName" value="${category.categoryName}"/>
 					</td>
 				</tr>
 				<tr>
 					<td style="text-align: center;" colspan="2">
-						<a class="btn btn-mini btn-primary" onclick="saveArticle();">保存</a>
+						<a class="btn btn-mini btn-primary" onclick="saveCategory();">保存</a>
 						<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
 					</td>
 				</tr>
@@ -82,10 +71,7 @@
 		<script src="static/assets/js/ace/ace.js"></script>
 		<script type="text/javascript">
 		$(top.hangge());
-		var ue = UE.getEditor('container');
-		function saveArticle(){
-			var detail = ue.getContent();
-			$("#detail").val(detail);
+		function saveCategory(){
 			$("#Form").submit();
 			$("#zhongxin").hide();
 			$("#zhongxin2").show();

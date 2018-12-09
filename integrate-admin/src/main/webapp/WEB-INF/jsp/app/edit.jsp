@@ -55,9 +55,6 @@
 		$("#zhongxin").hide();
 		$("#zhongxin2").show();
 	}
-	
-	
-	
 </script>
 	</head>
 <body>
@@ -73,8 +70,8 @@
 				<th>上传APP:</th>
 				<td>
 					<input type="file" id="tp" name="tp" onchange="fileType(this)"/>
-				</td>			</tr>
-			
+				</td>
+			</tr>
 			<tr>
 				<td style="text-align: center;" colspan="2">
 					<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
@@ -85,10 +82,7 @@
 		</div>
 		
 		<div id="zhongxin2" class="center" style="display:none"><br/><br/><br/><br/><br/><img src="static/images/jiazai.gif" /><br/><h4 class="lighter block green">提交中...</h4></div>
-		
 	</form>
-	
-	
 		<!-- 引入 -->
 		<!--[if !IE]> -->
 		<script type="text/javascript">
@@ -115,10 +109,7 @@
 				droppable:false,
 				onchange:null,
 				thumbnail:false, //| true | large
-				whitelist:'gif|png|jpg|jpeg',
-				//blacklist:'gif|png|jpg|jpeg'
-				//onchange:''
-				//
+				whitelist:'apk'
 			});
 			
 		});

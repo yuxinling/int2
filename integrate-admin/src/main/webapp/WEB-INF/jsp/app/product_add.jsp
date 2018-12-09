@@ -57,6 +57,24 @@
 						<div id="integrate-error" style="color: red;font-size: 8px;margin-top: -10px;"></div>
 					</td>
 				</tr>
+
+				<tr>
+                    <th>商品分类:</th>
+                    <td>
+                        <select id="category.id" name="category.id" style="width:430px;">
+                        <c:choose>
+                            <c:when test="${not empty categorys}">
+                                <c:forEach items="${categorys}" var="var" varStatus="vs">
+                                    <option value="${var.id}">${var.categoryName}</option>
+                                </c:forEach>
+                            </c:when>
+                        </c:choose>
+                        </select>
+                    </td>
+                </tr>
+
+
+
 				<tr>
 					<td style="text-align: center;" colspan="2">
 						<a class="btn btn-mini btn-primary" onclick="saveProduct();">保存</a>

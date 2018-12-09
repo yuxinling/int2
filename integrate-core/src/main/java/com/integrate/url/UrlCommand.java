@@ -2,170 +2,183 @@ package com.integrate.url;
 
 /**
  * json url 请求
- * 
- *
  */
 public interface UrlCommand {
 
-	/*************************** 前端接口 ******************************/
+    /*************************** 前端接口 ******************************/
 
-	String update_data="/user/updatedata";
-	
-	String app_version = "/user/appversion";
+    String update_data = "/user/updatedata";
 
-	/**
-	 * 用户中心
-	 */
-	String user_login = "/user/login";
+    String app_version = "/user/appversion";
 
-	String register_code = "/user/registerCode";
+    /**
+     * 用户中心
+     */
+    String user_login = "/user/login";
 
-	String findpwd_code = "/user/findpwd";
+    String register_code = "/user/registerCode";
 
-	String mobile_register = "/user/mobileRegister";
+    String findpwd_code = "/user/findpwd";
 
-	String city_arealist = "/city/areaList";
+    String mobile_register = "/user/mobileRegister";
 
-	String base_userInfo = "/user/myBaseInfo";
+    String city_arealist = "/city/areaList";
 
-	String user_integrate = "/user/userIntegrate";
+    String base_userInfo = "/user/myBaseInfo";
 
-	String update_pwd = "/user/updatepwd";
+    String user_integrate = "/user/userIntegrate";
 
-	String update_loginpwd = "/user/updateLoginPwd";
+    String update_pwd = "/user/updatepwd";
 
-	String update_tradepwd = "/user/updateTradePwd";
+    String update_loginpwd = "/user/updateLoginPwd";
 
-	String user_bankinfo = "/user/userBankInfo";
+    String update_tradepwd = "/user/updateTradePwd";
 
-	String user_bondbank = "/user/bondBankcard";
+    String user_bankinfo = "/user/userBankInfo";
 
-	String update_bankinfo = "/user/updateBankcard";
-	
-	//2.13 -2.14 
-	String update_trade_pwd_code="/user/updateTradepwdCode";
-	
-	String update_trade_pwd="/user/updatetradepwdbymobile";
-	
-	String update_user_nickname="/user/updateUserNickName";
-	
-	String getproxy_list="/user/proxyList";
-	String bank_list="/user/bankinfoList";
+    String user_bondbank = "/user/bondBankcard";
 
-	/**
-	 * 提现
-	 */
-	String user_withdrawals = "/user/withdrawals";
-	String user_withdrawals_total = "/user/withdrawalsTotal";
+    String update_bankinfo = "/user/updateBankcard";
 
-	// 兑换
-	String user_exchange = "/user/exchange";
-	String user_exchange_v2 = "/user/exchange2";
+    //2.13 -2.14
+    String update_trade_pwd_code = "/user/updateTradepwdCode";
 
-	String exchange_goods = "/user/exchangeGoods";
+    String update_trade_pwd = "/user/updatetradepwdbymobile";
 
-	// 充值
-	String user_recharge = "/user/recharge";
-	
-	String user_rechargeV2="/user/recharge2";
-	
-	String recharge_goods = "/user/rechargGoods";
+    String update_user_nickname = "/user/updateUserNickName";
 
-	String user_order = "/user/userOrders";
+    String getproxy_list = "/user/proxyList";
+    String bank_list = "/user/bankinfoList";
 
-	String user_order_total = "/user/userOrdersTotal";
-	
-	String user_recorde = "/user/userRecorde";
+    /**
+     * 提现
+     */
+    String user_withdrawals = "/user/withdrawals";
+    String user_withdrawals_total = "/user/withdrawalsTotal";
 
-	String area_recharge = "/user/areaRecharge";
+    // 兑换
+    String user_exchange = "/user/exchange";
+    String user_exchange_v2 = "/user/exchange2";
 
-	String unionpay_tn = "/unionpay/getTn";
+    String exchange_goods = "/user/exchangeGoods";
 
-	String unionpay_notify = "/unionpay/notify";
+    // 充值
+    String user_recharge = "/user/recharge";
 
-	String unionpay_query = "/unionpay/query";
-	
-	String news_images = "/news/images";
-	String article_titles = "/articles/titles";
-	String article_detail = "/articles/{id}";
-	String product = "/products";
-	String product_search = "/products/search";
-	String product_detail = "/products/{id}";
-	String hot_keys = "/hotKeys";
+    String user_rechargeV2 = "/user/recharge2";
 
-	
+    String recharge_goods = "/user/rechargGoods";
 
-	/*************************** admin后台URL bg开头 ******************************/
+    String user_order = "/user/userOrders";
 
-	String rechrage_exchange = "/bg/exchangeList";
-	String rechrage = "/bg/rechargeList";
-	String rechrage_oplogs = "/bg/rechargeOplogs";
+    String user_order_total = "/user/userOrdersTotal";
 
-	String human_recharge_goto_edit="bg/humanRechargeToEdit";
-	String human_recharge_edit="bg/humanRechargeEdit";
-	
-	
-	String proportion="bg/proportionList";
-	String proportion_goto_edit="bg/proportionToEdit";
-	String proportion_edit="bg/proportionEdit";
-	
-	String app="bg/appList";
-	String app_goto_edit="bg/appToEdit";
-	String app_edit="bg/appEdit";
-	String image_new="bg/imageNews";
-	String image_upload="bg/images/upload";
-	String image_thumbnail_upload="bg/images/thumbnailUpload";
-	String image_thumbnail_delete="bg/images/thumbnailDelete";
-	String image_delete="bg/imageDelete";
-	String article_new="bg/articleNews";
-	String article_new_goto_edit="bg/articleNewToEdit";
-	String article_new_goto_view="bg/articleNewToView";
-	String article_new_edit="bg/articleNewEdit";
-	String article_new_delete="bg/articleNewDelete";
-	String product_list = "bg/productList";
-	String product_goto_edit = "bg/productToEdit";
-	String product_delete = "bg/productDelete";
-	String product_edit = "bg/productEdit";
-	String hot_key = "bg/hotKeyList";
-	String hot_key_goto_edit = "bg/hotKeyToEdit";
-	String hot_key_edit = "bg/hotKeyEdit";
-	String hot_key_delete = "bg/hotKeyDelete";
+    String user_recorde = "/user/userRecorde";
+
+    String area_recharge = "/user/areaRecharge";
+
+    String unionpay_tn = "/unionpay/getTn";
+
+    String unionpay_notify = "/unionpay/notify";
+
+    String unionpay_query = "/unionpay/query";
+
+    String news_images = "/news/images";
+    String article_titles = "/articles/titles";
+    String article_detail = "/articles/{id}";
+    String product = "/products";
+    String product_search = "/products/search";
+    String product_detail = "/products/{id}";
+    String hot_keys = "/hotKeys";
+    String categorys = "/categorys";
+    String coupons = "/coupons";
 
 
-	String user_list ="bg/userList";
-	String withdrawls="bg/withdrawlsList";
-	String withdrawlsEdit="bg/withdrawlsEdit";
-	String withdrawls_excel ="bg/withdrawlsExcel";
-	
-	String city_list="bg/cityList";
-	String area_list="bg/areaList";
-	String proxy_list="bg/proxyList";
-	
-	String user_edit="bg/edit";
-	String user_to_edit="bg/toedit";
-	
-	String user_isfreeze_edit="bg/isfreezeEdit";
-	String user_freeze_all="bg/freezeAll";
-	String user_un_freeze_all="bg/unFreezeAll";
-	String user_isfreeze_to_edit="bg/isfreezeToedit";
-	
-	String rechrage_isfreeze="bg/rechrageIsfreeze";
-	String rechrage_edit="bg/rechrageEdit";
-	String rechrage_to_edit="bg/rechrageToEdit";
-	String exchange_to_edit="bg/exchangeToEdit";
-	String exchange_edit="bg/exchangeEdit";
-	
-	String user_to_record="bg/usertorecord";
-	String user_record="bg/userrecord";
-	
-	//统计
-	String statistics_user="bg/statisticsUser";
-	String statistics_user_excel="bg/statisticsUserExcel";
-	String statistics_rechrage="bg/statisticsRechrage";
-	String statistics_rechrage_excel="bg/statisticsRechrageExcel";
+    /*************************** admin后台URL bg开头 ******************************/
 
-	String statistics_withdrawls="bg/statisticswithdrawls";
-	String statistics_withdrawls_excel="bg/statisticswithdrawlsExcel";
-	/*************************** admin后台URL bg开头 ******************************/
+    String rechrage_exchange = "/bg/exchangeList";
+    String rechrage = "/bg/rechargeList";
+    String rechrage_oplogs = "/bg/rechargeOplogs";
+
+    String human_recharge_goto_edit = "bg/humanRechargeToEdit";
+    String human_recharge_edit = "bg/humanRechargeEdit";
+
+
+    String proportion = "bg/proportionList";
+    String proportion_goto_edit = "bg/proportionToEdit";
+    String proportion_edit = "bg/proportionEdit";
+
+    String app = "bg/appList";
+    String app_goto_edit = "bg/appToEdit";
+    String app_edit = "bg/appEdit";
+    String image_new = "bg/imageNews";
+    String image_upload = "bg/images/upload";
+    String image_thumbnail_upload = "bg/images/thumbnailUpload";
+    String image_thumbnail_delete = "bg/images/thumbnailDelete";
+    String image_delete = "bg/imageDelete";
+    String article_new = "bg/articleNews";
+    String article_new_goto_edit = "bg/articleNewToEdit";
+    String article_new_goto_view = "bg/articleNewToView";
+    String article_new_edit = "bg/articleNewEdit";
+    String article_new_delete = "bg/articleNewDelete";
+    String product_list = "bg/productList";
+    String product_goto_edit = "bg/productToEdit";
+    String product_delete = "bg/productDelete";
+    String product_edit = "bg/productEdit";
+    String category_list = "bg/categoryList";
+    String category_goto_edit = "bg/categoryToEdit";
+    String category_delete = "bg/categoryDelete";
+    String category_edit = "bg/categoryEdit";
+
+    String mobile_coupon_list = "bg/mobileCouponList";
+    String mobile_coupon_goto_edit = "bg/mobileCouponToEdit";
+    String mobile_coupon_delete = "bg/mobileCouponDelete";
+    String mobile_coupon_edit = "bg/mobileCouponEdit";
+    String gas_coupon_list = "bg/gasCouponList";
+    String gas_coupon_goto_edit = "bg/gasCouponToEdit";
+    String gas_coupon_delete = "bg/gasCouponDelete";
+    String gas_coupon_edit = "bg/gasCouponEdit";
+
+    String hot_key = "bg/hotKeyList";
+    String hot_key_goto_edit = "bg/hotKeyToEdit";
+    String hot_key_edit = "bg/hotKeyEdit";
+    String hot_key_delete = "bg/hotKeyDelete";
+
+
+    String user_list = "bg/userList";
+    String withdrawls = "bg/withdrawlsList";
+    String withdrawlsEdit = "bg/withdrawlsEdit";
+    String withdrawls_excel = "bg/withdrawlsExcel";
+
+    String city_list = "bg/cityList";
+    String area_list = "bg/areaList";
+    String proxy_list = "bg/proxyList";
+
+    String user_edit = "bg/edit";
+    String user_to_edit = "bg/toedit";
+
+    String user_isfreeze_edit = "bg/isfreezeEdit";
+    String user_freeze_all = "bg/freezeAll";
+    String user_un_freeze_all = "bg/unFreezeAll";
+    String user_isfreeze_to_edit = "bg/isfreezeToedit";
+
+    String rechrage_isfreeze = "bg/rechrageIsfreeze";
+    String rechrage_edit = "bg/rechrageEdit";
+    String rechrage_to_edit = "bg/rechrageToEdit";
+    String exchange_to_edit = "bg/exchangeToEdit";
+    String exchange_edit = "bg/exchangeEdit";
+
+    String user_to_record = "bg/usertorecord";
+    String user_record = "bg/userrecord";
+
+    //统计
+    String statistics_user = "bg/statisticsUser";
+    String statistics_user_excel = "bg/statisticsUserExcel";
+    String statistics_rechrage = "bg/statisticsRechrage";
+    String statistics_rechrage_excel = "bg/statisticsRechrageExcel";
+
+    String statistics_withdrawls = "bg/statisticswithdrawls";
+    String statistics_withdrawls_excel = "bg/statisticswithdrawlsExcel";
+    /*************************** admin后台URL bg开头 ******************************/
 
 }

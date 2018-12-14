@@ -59,8 +59,9 @@ public interface UrlCommand {
     // 兑换
     String user_exchange = "/user/exchange";
     String user_exchange_v2 = "/user/exchange2";
-
     String exchange_goods = "/user/exchangeGoods";
+    String mobile_fee_exchange = "/user/mobileFeeExchange";
+    String gas_fee_exchange = "/user/gasFeeExchange";
 
     // 充值
     String user_recharge = "/user/recharge";
@@ -95,10 +96,11 @@ public interface UrlCommand {
 
 
     /*************************** admin后台URL bg开头 ******************************/
-
     String rechrage_exchange = "/bg/exchangeList";
     String rechrage = "/bg/rechargeList";
     String rechrage_oplogs = "/bg/rechargeOplogs";
+    String coupon_exchange_list = "/bg/couponExchangeList";
+    String coupon_exchange_to_edit= "/bg/couponExchangeToEdit";
 
     String human_recharge_goto_edit = "bg/humanRechargeToEdit";
     String human_recharge_edit = "bg/humanRechargeEdit";

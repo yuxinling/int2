@@ -13,8 +13,6 @@ public class Recharge {
 	private int state;
 	private String txnTime;
 	
-	
-
 	public String getTxnTime() {
 		return txnTime;
 	}

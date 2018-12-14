@@ -6,6 +6,7 @@ public class AppInfo {
 	private String version;
 	private long time;
 	private String url;
+	private String description;
 	public int getId() {
 		return id;
 	}
@@ -30,5 +31,10 @@ public class AppInfo {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 }

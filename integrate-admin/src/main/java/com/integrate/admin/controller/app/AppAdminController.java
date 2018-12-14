@@ -78,6 +78,7 @@ public class AppAdminController extends BaseController {
     public ModelAndView update(HttpServletRequest request, @RequestParam(value = "tp", required = false) MultipartFile file) {
 
         String version = request.getParameter("version");
+        String description = request.getParameter("description");
         String url = null;
         if (file != null) {
             /*CommonsMultipartFile cf = (CommonsMultipartFile) file;
@@ -104,7 +105,7 @@ public class AppAdminController extends BaseController {
                     .toString();
         }
 
-        appService.update(url, version);
+        appService.update(url, version, description);
         ModelAndView mv = this.getModelAndView();
         mv.addObject("msg", "success");
         mv.setViewName("save_result");
@@ -253,7 +254,6 @@ public class AppAdminController extends BaseController {
 
     }
 
-
     @RequestMapping(value = UrlCommand.image_delete, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public Object deleteImage(HttpServletRequest request) {
@@ -278,7 +278,6 @@ public class AppAdminController extends BaseController {
         }
         return AppUtil.returnObject(new PageData(), result);
     }
-
 
     @RequestMapping(value = UrlCommand.article_new)
     public ModelAndView getArticleNews(HttpServletRequest request) {
@@ -363,7 +362,6 @@ public class AppAdminController extends BaseController {
         return mv;
     }
 
-
     @RequestMapping(value = UrlCommand.article_new_delete, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public Object deleteArticleNew(HttpServletRequest request) {
@@ -388,7 +386,6 @@ public class AppAdminController extends BaseController {
         }
         return AppUtil.returnObject(new PageData(), result);
     }
-
 
     @RequestMapping(value = UrlCommand.product_list)
     public ModelAndView getProducts(HttpServletRequest request) {
@@ -452,7 +449,6 @@ public class AppAdminController extends BaseController {
         return mv;
     }
 
-
     @RequestMapping(value = UrlCommand.product_delete, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public Object deleteProduct(HttpServletRequest request) {
@@ -477,7 +473,6 @@ public class AppAdminController extends BaseController {
         }
         return AppUtil.returnObject(new PageData(), result);
     }
-
 
     @RequestMapping(value = UrlCommand.hot_key)
     public ModelAndView getHotKeys() {
@@ -537,7 +532,6 @@ public class AppAdminController extends BaseController {
         return mv;
     }
 
-
     @RequestMapping(value = UrlCommand.hot_key_delete, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public Object deleteHotKey(HttpServletRequest request) {
@@ -593,7 +587,6 @@ public class AppAdminController extends BaseController {
         return mv;
     }
 
-
     @RequestMapping(value = UrlCommand.category_edit)
     public ModelAndView updateCategory(HttpServletRequest request) {
         try {
@@ -622,7 +615,6 @@ public class AppAdminController extends BaseController {
         return mv;
     }
 
-
     @RequestMapping(value = UrlCommand.category_delete, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public Object deleteCategory(HttpServletRequest request) {
@@ -647,7 +639,6 @@ public class AppAdminController extends BaseController {
         }
         return AppUtil.returnObject(new PageData(), result);
     }
-
 
     @RequestMapping(value = UrlCommand.mobile_coupon_list)
     public ModelAndView getMobileCoupons(HttpServletRequest request) {
@@ -679,7 +670,6 @@ public class AppAdminController extends BaseController {
         return mv;
     }
 
-
     @RequestMapping(value = UrlCommand.mobile_coupon_edit)
     public ModelAndView updateMobileCoupon(HttpServletRequest request, @ModelAttribute Coupon coupon) {
         try {
@@ -699,9 +689,8 @@ public class AppAdminController extends BaseController {
         return mv;
     }
 
-
-    @RequestMapping(value = UrlCommand.category_delete, produces = "application/json;charset=UTF-8")
     @ResponseBody
+    @RequestMapping(value = UrlCommand.mobile_coupon_delete, produces = "application/json;charset=UTF-8")
     public Object deleteMobileCoupon(HttpServletRequest request) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("code", 200);

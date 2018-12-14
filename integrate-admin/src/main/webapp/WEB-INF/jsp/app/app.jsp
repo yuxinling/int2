@@ -48,9 +48,10 @@
 							<thead>
 								<tr>
 
-									<th style="width: 20%;height:30px;font-size: 15px" class="center">版本号</th>
+									<th style="width: 10%;height:30px;font-size: 15px" class="center">版本号</th>
 									<th style="width: 50%;font-size: 15px" class="center">下载地址</th>
-									<th style="width: 20%;font-size: 15px" class="center">更新</th>
+									<th style="width: 30%;font-size: 15px" class="center">更新描述</th>
+									<th style="width: 10%;font-size: 15px" class="center">更新</th>
 
 								</tr>
 							</thead>
@@ -61,10 +62,10 @@
 
 								<tr>
 
-									<td style="width: 20%;font-size: 20px;height:30px;" class="center">${p.version}</td>
-
+									<td style="width: 10%;font-size: 20px;height:30px;" class="center">${p.version}</td>
 									<td style="width: 50%;font-size: 18px" class="center">${p.url}</td>
-									<td style="width: 20%;" class="center">
+									<td style="width: 30%;font-size: 18px" class="center">${p.description}</td>
+									<td style="width: 10%;" class="center">
 									<a style="cursor: pointer;" title="编辑"
 											onclick="edit('${p.version}');" class="tooltip-success"
 											data-rel="tooltip" title="" data-placement="left"><span
@@ -86,10 +87,6 @@
 						</div>
 					</form>
 				</div>
-
-
-
-
 				<!-- PAGE CONTENT ENDS HERE -->
 			</div>
 			<!--/row-->

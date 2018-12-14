@@ -30,4 +30,9 @@ public class CouponDao {
         String sql = "select * from t_coupon where usable = 1 order by money asc";
         return jdbc.query(sql, rmapper);
     }
+
+    public Coupon getCoupon(long id) {
+        String sql = "select * from t_coupon where id = ? ";
+        return jdbc.queryT(sql, rmapper, new Object[]{id});
+    }
 }

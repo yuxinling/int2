@@ -24,7 +24,7 @@ public class CouponController {
     private CouponService couponService;
 
     @ResponseBody
-    @RequestMapping(value = UrlCommand.categorys, method = RequestMethod.GET)
+    @RequestMapping(value = UrlCommand.coupons, method = RequestMethod.GET)
     public void getCategorys(HttpServletRequest request, HttpServletResponse response) {
         List<Coupon> coupons = couponService.getCoupons();
         Message.writeMsg(response, SysMsgEnumType.SUCCESS, coupons);

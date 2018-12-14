@@ -16,4 +16,8 @@ public class CouponService {
     public List<Coupon> getCoupons() {
         return couponDao.getCoupons();
     }
+
+    public Coupon getCoupon(long id) {
+        return couponDao.getCoupon(id);
+    }
 }

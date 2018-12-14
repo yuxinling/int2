@@ -13,31 +13,33 @@ import com.integrate.admin.module.app.model.AppInfo;
 @Component
 public class AppDao {
 
-	@Autowired
-	private AppDbService jdbc;
-	public AppInfo getApp(){
-		String sql="SELECT * FROM t_app_version LIMIT 1";
-		return jdbc.queryT(sql, appMapper);
-	}
-	
-	
-	public boolean update(String url,String version){
-		long time=System.currentTimeMillis();
-		String sql="UPDATE t_app_version SET url=?,VERSION=?,TIME=?";
-		return jdbc.update(sql, url,version,time);
-	}
-	
-	RowMapper<AppInfo> appMapper=new RowMapper<AppInfo>() {
-		
-		@Override
-		public AppInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
-			// TODO Auto-generated method stub
-			AppInfo a=new AppInfo();
-			a.setId(rs.getInt("id"));
-			a.setTime(rs.getLong("time"));
-			a.setUrl(rs.getString("url"));
-			a.setVersion(rs.getString("version"));
-			return a;
-		}
-	};
+    @Autowired
+    private AppDbService jdbc;
+
+    public AppInfo getApp() {
+        String sql = "SELECT * FROM t_app_version LIMIT 1";
+        return jdbc.queryT(sql, appMapper);
+    }
+
+
+    public boolean update(String url, String version, String description) {
+        long time = System.currentTimeMillis();
+        String sql = "UPDATE t_app_version SET url=?,VERSION=?,TIME=?,description=?";
+        return jdbc.update(sql, url, version, time, description);
+    }
+
+    RowMapper<AppInfo> appMapper = new RowMapper<AppInfo>() {
+
+        @Override
+        public AppInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
+            // TODO Auto-generated method stub
+            AppInfo a = new AppInfo();
+            a.setId(rs.getInt("id"));
+            a.setTime(rs.getLong("time"));
+            a.setUrl(rs.getString("url"));
+            a.setVersion(rs.getString("version"));
+            a.setDescription(rs.getString("description"));
+            return a;
+        }
+    };
 }

@@ -8,8 +8,10 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.integrate.model.Coupon;
 import com.integrate.model.Product;
 import com.integrate.web.model.*;
+import com.integrate.web.service.CouponService;
 import com.integrate.web.service.ProductService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -41,6 +43,9 @@ public class WalletController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private CouponService couponService;
+
     Cache<String, String> reqCache = CacheBuilder.newBuilder().expireAfterWrite(1, TimeUnit.SECONDS).build();
 
     /**
@@ -49,8 +54,8 @@ public class WalletController {
      * @param request
      * @param response
      */
-    @RequestMapping(value = UrlCommand.user_withdrawals, method = RequestMethod.POST)
     @ResponseBody
+    @RequestMapping(value = UrlCommand.user_withdrawals, method = RequestMethod.POST)
     public void withdrawals(HttpServletRequest request, HttpServletResponse response) {
         String money = StringUtil.getString(request.getParameter("money"));
         String userId = StringUtil.getString(request.getParameter("userId"));
@@ -95,15 +100,13 @@ public class WalletController {
             return;
         }
         Message.writeSuccess(response);
-
     }
 
     /**
      * 兑换
      */
-
-    @RequestMapping(value = UrlCommand.user_exchange, method = RequestMethod.POST)
     @ResponseBody
+    @RequestMapping(value = UrlCommand.user_exchange, method = RequestMethod.POST)
     public void exchange(HttpServletRequest request, HttpServletResponse response) {
         String integrate = StringUtil.getString(request.getParameter("integrate"));
         String goodsId = StringUtil.getString(request.getParameter("goodsId"));
@@ -137,8 +140,8 @@ public class WalletController {
     }
 
     @ResponseBody
-    @RequestMapping(value = UrlCommand.user_exchange_v2, method = RequestMethod.POST,consumes = "application/x-www-form-urlencoded")
-    public void exchange2(HttpServletRequest request,HttpServletResponse response) {
+    @RequestMapping(value = UrlCommand.user_exchange_v2, method = RequestMethod.POST, consumes = "application/x-www-form-urlencoded")
+    public void exchange2(HttpServletRequest request, HttpServletResponse response) {
 
         String userId = StringUtil.getString(request.getParameter("userId"));
         String mobile = StringUtil.getString(request.getParameter("mobile"));
@@ -147,8 +150,6 @@ public class WalletController {
         String tradePwd = StringUtil.getString(request.getParameter("tradePwd"));
         String productId = StringUtil.getString(request.getParameter("productId"));
         String amount = StringUtil.getString(request.getParameter("amount"));
-
-
         if (!StringUtils.isNumeric(userId)
                 || StringUtils.isBlank(mobile)
                 || StringUtils.isBlank(userName)
@@ -189,8 +190,71 @@ public class WalletController {
 
     }
 
-    @RequestMapping(value = UrlCommand.exchange_goods, method = RequestMethod.POST)
     @ResponseBody
+    @RequestMapping(value = UrlCommand.mobile_fee_exchange, method = RequestMethod.POST, consumes = "application/x-www-form-urlencoded")
+    public void mobileFeeExchange(HttpServletRequest request, HttpServletResponse response) {
+
+        String userId = StringUtil.getString(request.getParameter("userId"));
+        String mobile = StringUtil.getString(request.getParameter("mobile"));
+        String tradePwd = StringUtil.getString(request.getParameter("tradePwd"));
+        String couponId = StringUtil.getString(request.getParameter("couponId"));
+        String amount = "1";
+
+        this.exchage(userId, mobile, tradePwd, couponId, amount, 1, response);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = UrlCommand.gas_fee_exchange, method = RequestMethod.POST, consumes = "application/x-www-form-urlencoded")
+    public void gasFeeExchange(HttpServletRequest request, HttpServletResponse response) {
+        String userId = StringUtil.getString(request.getParameter("userId"));
+        String account = StringUtil.getString(request.getParameter("account"));
+        String tradePwd = StringUtil.getString(request.getParameter("tradePwd"));
+        String couponId = StringUtil.getString(request.getParameter("couponId"));
+        String amount = "1";
+
+        this.exchage(userId, account, tradePwd, couponId, amount, 2, response);
+    }
+
+    private void exchage(String userId, String account, String tradePwd, String couponId, String amount, int type, HttpServletResponse response) {
+        if (!StringUtils.isNumeric(userId)
+                || StringUtils.isBlank(account)
+                || !StringUtils.isNumeric(couponId)
+                || !StringUtils.isNumeric(amount)
+                || StringUtils.isBlank(tradePwd)) {
+            Message.writeError(response, SysMsgEnumType.PARAM_LACK);
+            return;
+        }
+        boolean valtradePwd = userService.valtradePwd(Long.parseLong(userId), tradePwd);
+        if (!valtradePwd) {
+            Message.writeError(response, SysMsgEnumType.TRADEPWD_FAIL);
+            return;
+        }
+        if (walletService.isFreezeAll(Long.parseLong(userId))) {
+            Message.writeError(response, SysMsgEnumType.FREEZE_FAIL);
+            return;
+        }
+
+        Coupon coupon = couponService.getCoupon(Long.valueOf(couponId));
+        if (coupon == null) {
+            Message.writeError(response, SysMsgEnumType.PRODUCT_FAIL);
+            return;
+        }
+        int integrate = coupon.getIntegrate() * Integer.parseInt(amount);
+        if (coupon.getIntegrate() * Integer.parseInt(amount) > walletService.userintegrate(Long.parseLong(userId))) {
+            Message.writeError(response, SysMsgEnumType.INTEGRATE_FAIL);
+            return;
+        }
+        boolean result = walletService.addCouponRechrageRecorde(Long.valueOf(userId), integrate, type, account, Long.valueOf(couponId), Integer.parseInt(amount));
+        if (!result) {
+            Message.writeError(response, SysMsgEnumType.TRADE_FAIL);
+            return;
+        }
+        Message.writeSuccess(response);
+
+    }
+
+    @ResponseBody
+    @RequestMapping(value = UrlCommand.exchange_goods, method = RequestMethod.POST)
     public void exchangeGoods(HttpServletRequest request, HttpServletResponse response) {
         List<Goods> list = new ArrayList<>();
         //螺旋藻大米、陈氏金谷大米、陈氏银谷大米、陈氏香谷大米、赣南山茶油、赣北菜籽油、狗牯脑绿茶、庐山云雾、婺源绿茶、河口红茶、义门陈白酒
@@ -208,11 +272,9 @@ public class WalletController {
         Message.writeMsg(response, SysMsgEnumType.SUCCESS, list);
     }
 
-
     /**
      * 充值
      */
-
     @RequestMapping(value = UrlCommand.user_recharge, method = RequestMethod.POST)
     @ResponseBody
     public void recharge(HttpServletRequest request, HttpServletResponse response) {
@@ -315,7 +377,6 @@ public class WalletController {
 
         Message.writeMsg(response, SysMsgEnumType.SUCCESS, getareaOrderList);
     }
-
 
     @RequestMapping(value = UrlCommand.user_order_total, method = RequestMethod.POST)
     @ResponseBody

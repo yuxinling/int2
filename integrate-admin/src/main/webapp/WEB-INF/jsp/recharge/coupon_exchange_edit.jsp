@@ -25,56 +25,69 @@
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 		
 <script type="text/javascript">
-	
 	//保存
 	function save(){
-		if($("#version").val()==""){
-			$("#version").tips({
-				side:3,
-	            msg:'请输入版本',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#version").focus();
-			return false;
-		}
-		if(typeof($("#tpz").val()) == "undefined"){
-			if($("#tp").val()=="" || document.getElementById("tp").files[0] =='请选择图片'){
-				
-				$("#tp").tips({
-					side:3,
-		            msg:'请选apk',
-		            bg:'#AE81FF',
-		            time:3
-		        });
-				return false;
-			}
-		}
-	
 		$("#Form").submit();
-		$("#zhongxin").hide();
-		$("#zhongxin2").show();
 	}
+	
 </script>
 	</head>
 <body>
-	<form action="bg/appEdit.do" name="Form" id="Form" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="picId" id="picId" value="${pd.picId}"/>
+	<form action="bg/couponExchangeUpdate.do" name="Form" id="Form" method="post" enctype="multipart/form-data">
 		<div id="zhongxin">
 		<table id="table_report" class="table table-striped table-bordered table-hover">
 			<tr>
-				<th>版本:</th>
-				<td><input type="text" name="version" id="version" value="${version}" maxlength="32" style="width:80%;" /></td>
+				<th colspan="2" style="text-align: center;">
+                 <c:choose>
+                     <c:when test="${couponExchange.type == 1}">
+                        手机充值
+                     </c:when>
+                     <c:when test="${couponExchange.type == 2}">
+                        加油卡充值
+                     </c:when>
+                     <c:otherwise>
+                        充值订单
+                     </c:otherwise>
+                 </c:choose>
+				<input type="hidden" name="id" value="${couponExchange.id}">
+				</th>
 			</tr>
 			<tr>
-				<th>上传APP:</th>
+				<th>姓名:</th>
+				<td>${couponExchange.nickName}</td>
+			</tr>
+			<tr>
+				<th>
+                     <c:choose>
+                         <c:when test="${couponExchange.type == 1}">
+                            手机号:
+                         </c:when>
+                         <c:when test="${couponExchange.type == 2}">
+                            加油卡号:
+                         </c:when>
+                         <c:otherwise>
+                            充值订单
+                         </c:otherwise>
+                     </c:choose>
+				</th>
+				<td>${couponExchange.account}</td>
+			</tr>
+			<tr>
+				<th>充值金额(元):</th>
+				<td>${couponExchange.money}</td>
+			</tr>
+			<tr>
+				<th>兑换积分:</th>
+				<td>${couponExchange.integrate}</td>
+			</tr>
+			<tr>
+				<th>充值状态:</th>
 				<td>
-					<input type="file" id="tp" name="tp" onchange="fileType(this)"/>
+					<select name="status">
+				 		<option <c:if test="${status==1}"> selected="selected" </c:if> value="1">处理中</option>
+				 		<option <c:if test="${status==2}"> selected="selected" </c:if> value="2">已兑换</option>
+					</select>
 				</td>
-			</tr>
-			<tr>
-				<th>更新描述:</th>
-				<td><input type="text" name="description" id="description" value="${description}" style="width:80%;" /></td>
 			</tr>
 			<tr>
 				<td style="text-align: center;" colspan="2">
@@ -86,7 +99,10 @@
 		</div>
 		
 		<div id="zhongxin2" class="center" style="display:none"><br/><br/><br/><br/><br/><img src="static/images/jiazai.gif" /><br/><h4 class="lighter block green">提交中...</h4></div>
+		
 	</form>
+	
+	
 		<!-- 引入 -->
 		<!--[if !IE]> -->
 		<script type="text/javascript">
@@ -104,20 +120,6 @@
 		<script src="static/assets/js/ace/ace.js"></script>
 		<script type="text/javascript">
 		$(top.hangge());
-		$(function() {
-			//上传
-			$('#tp').ace_file_input({
-				no_file:'请选择app ...',
-				btn_choose:'选择',
-				btn_change:'更改',
-				droppable:false,
-				onchange:null,
-				thumbnail:false, //| true | large
-				whitelist:'apk'
-			});
-			
-		});
-		
 		</script>
 </body>
 </html>

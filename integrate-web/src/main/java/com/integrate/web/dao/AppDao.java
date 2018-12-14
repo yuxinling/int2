@@ -10,11 +10,11 @@ import com.integrate.web.common.AppDbService;
 @Component
 public class AppDao {
 
-	@Autowired
-	private AppDbService jdbc;
-	
-	public Map<String, Object> getVersion(){
-		String sql="SELECT version,url,time FROM t_app_version LIMIT 1  " ;
-		return jdbc.queryForMap(sql);
-	}
+    @Autowired
+    private AppDbService jdbc;
+
+    public Map<String, Object> getVersion() {
+        String sql = "SELECT version,url,time,description FROM t_app_version LIMIT 1  ";
+        return jdbc.queryForMap(sql);
+    }
 }

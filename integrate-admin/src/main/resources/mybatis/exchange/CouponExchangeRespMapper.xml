@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="CouponExchangeRespMapper">
+    <resultMap id="couponExchangeResp" type="com.integrate.admin.module.rechrage.model.CouponExchangeResp">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="integrate" property="integrate" jdbcType="INTEGER"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="money" property="money" jdbcType="INTEGER"/>
+        <result column="account" property="account" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="amount" property="amount" jdbcType="INTEGER"/>
+        <result column="nick_name" property="nickName" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="BIGINT"/>
+        <result column="update_time" property="updateTime" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <select id="datalistPage" parameterType="map" resultMap="couponExchangeResp">
+        SELECT
+            ce.*, u.nick_name, c.money
+        FROM
+            t_coupon_exchange ce,
+            t_user u,
+            t_coupon c
+        WHERE
+            ce.user_id = u.user_id
+            AND ce.coupon_id = c.id
+            <if test="pd.type != null and pd.type != ''">
+                AND ce.type =#{pd.type}
+            </if>
+            <if test="pd.userId != null and pd.userId != ''">
+                AND user_id =#{pd.userId}
+            </if>
+            <if test="pd.begin != null and pd.begin != ''">
+                AND ce.CREATE_TIME &gt; #{pd.begin}
+            </if>
+            <if test="pd.end != null and pd.end != ''">
+                AND ce.CREATE_TIME &lt; #{pd.end}
+            </if>
+        ORDER BY id DESC
+    </select>
+
+
+    <select id="getCouponExchangeResp" resultMap="couponExchangeResp" parameterType="Long">
+        SELECT
+            ce.*, u.nick_name, c.money
+        FROM
+            t_coupon_exchange ce,
+            t_user u,
+            t_coupon c
+        WHERE
+            ce.user_id = u.user_id
+            AND ce.coupon_id = c.id
+            AND ce.id = #{id}
+    </select>
+
+</mapper>

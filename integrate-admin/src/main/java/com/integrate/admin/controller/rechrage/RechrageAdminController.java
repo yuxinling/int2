@@ -43,60 +43,6 @@ public class RechrageAdminController extends BaseController {
 
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	Logger logger = LoggerFactory.getLogger(getClass());
-	String menuUrl = UrlCommand.rechrage_exchange; // 菜单地址(权限用)
-
-	/**
-	 * 0:充值，1：兑换
-	 * 
-	 * @throws ParseException
-	 */
-
-	@RequestMapping(value = UrlCommand.rechrage_exchange)
-	public ModelAndView exchangelist(Page page, HttpServletRequest request) throws ParseException {
-		ModelAndView mv = new ModelAndView();
-		PageData pd = this.getPageData();
-		long begin = 0;
-		long end = System.currentTimeMillis();
-
-		String beginTime = pd.getString("begin");
-		String endTime = pd.getString("end");
-		String type = request.getParameter("type");
-		logger.warn("beginTime:[{}],endTime:[{}],type:[{}]", beginTime, endTime, type);
-		if (StringUtils.isNotBlank(type)) {
-			pd.put("type", type.trim());
-		}
-		if (StringUtils.isNotBlank(beginTime)) {
-
-			Date b = sdf.parse(beginTime);
-			begin = b.getTime();
-
-		}
-		if (StringUtils.isNotBlank(endTime)) {
-			Date b = sdf.parse(endTime);
-			end = b.getTime() + 1000 * 60 * 60 * 24;
-		}
-
-		pd.put("begin", begin);
-		pd.put("end", end);
-		page.setPd(pd);
-		List<RechrageResp> rechrageList = rechrageService.getRechrageList(page);
-		logger.warn(" size:[{}]", rechrageList.size());
-		mv.setViewName("recharge/exchange");
-		mv.addObject("type", type);
-		mv.addObject("varList", rechrageList);
-		mv.addObject("pd", pd);
-		if (beginTime == null || StringUtils.isBlank(beginTime)) {
-			beginTime = "";
-		}
-		if (endTime == null || StringUtils.isBlank(endTime)) {
-			endTime = "";
-		}
-		mv.addObject("begin", beginTime);
-		mv.addObject("end", endTime);
-		mv.addObject(Const.SESSION_QX, this.getHC()); // 按钮权限
-
-		return mv;
-	}
 
 	@RequestMapping(value = UrlCommand.rechrage)
 	public ModelAndView rechargelist(Page page, HttpServletRequest request) throws ParseException {
@@ -178,15 +124,12 @@ public class RechrageAdminController extends BaseController {
 		mv.setViewName("save_result");
 		return mv;
 	}
-	
-	
-	
-	 /**
+
+	/**
      * 设置 取消 冻结
      * @param request
      * @return
      */
-    
     @RequestMapping(value = UrlCommand.rechrage_isfreeze)
 	public ModelAndView updateIsFreeze(HttpServletRequest request) {
 
@@ -205,7 +148,6 @@ public class RechrageAdminController extends BaseController {
      * @param request
      * @return
      */
-    
     @RequestMapping(value = UrlCommand.rechrage_edit)
     public ModelAndView rechrageEdit(HttpServletRequest request) {
     	
@@ -237,41 +179,6 @@ public class RechrageAdminController extends BaseController {
     	return mv;
     }
     
-    @RequestMapping(value = UrlCommand.exchange_to_edit)
-    public ModelAndView exchangeToEdit(HttpServletRequest request) {
-    	
-    	String id = request.getParameter("id");
-    	String name = request.getParameter("name");
-    	String mobile = request.getParameter("mobile");
-    	String status = request.getParameter("status");
-    	String money = request.getParameter("money");
 
-		RechrageResp recharge = rechrageService.getRecharge(Long.valueOf(id));
-
-    	ModelAndView mv = this.getModelAndView();
-    	mv.addObject("id", id);
-    	mv.addObject("name", name);
-    	mv.addObject("mobile", mobile);
-    	mv.addObject("money", money);
-    	mv.addObject("status", status);
-    	mv.addObject("recharge", recharge);
-    	mv.setViewName("recharge/exchange_edit");
-
-    	return mv;
-    }
-    
-    @RequestMapping(value = UrlCommand.exchange_edit)
-    public ModelAndView exchangeEdit(HttpServletRequest request) {
-    	
-    	String rid = request.getParameter("id");
-    	String status = request.getParameter("status");
-    	
-    	this.rechrageService.updateRechargeStatus(Long.parseLong(rid), Integer.parseInt(status));
-    	ModelAndView mv = this.getModelAndView();
-    	mv.addObject("msg", "success");
-    	mv.setViewName("save_result");
-    	
-    	return mv;
-    }
 
 }

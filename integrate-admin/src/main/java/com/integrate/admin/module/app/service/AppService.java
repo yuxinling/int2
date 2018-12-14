@@ -9,15 +9,15 @@ import com.integrate.admin.module.app.model.AppInfo;
 @Service
 public class AppService {
 
-	@Autowired
-	private AppDao appDao;
-	
-	public AppInfo getAppinfo(){
-		return appDao.getApp();
-	}
-	
-	public boolean update(String  url,String version){
-		return appDao.update(url, version);
-	}
+    @Autowired
+    private AppDao appDao;
+
+    public AppInfo getAppinfo() {
+        return appDao.getApp();
+    }
+
+    public boolean update(String url, String version, String description) {
+        return appDao.update(url, version, description);
+    }
 }
 
